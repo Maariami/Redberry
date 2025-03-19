@@ -1,0 +1,18 @@
+.button {
+  display: flex;
+  width: 155;
+  height: 35;
+  border-radius: 20px;
+  align-items: center;
+  background-color: rgba(131, 56, 236, 1);
+  justify-content: center;
+  color: rgba(255, 255, 255, 1);
+  font-family: FiraGO;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 100%;
+  letter-spacing: 0%;
+}
+.button:hover {
+  background-color: rgba(181, 136, 244, 1);
+}

@@ -1,0 +1,24 @@
+.button {
+  display: flex;
+  justify-content: center;
+  width: 268;
+  height: 40;
+  border-radius: 5px;
+  padding-top: 10px;
+  padding-right: 20px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  gap: 4px;
+  background-color: rgba(131, 56, 236, 1);
+  font-family: FiraGO;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  color: rgba(255, 255, 255, 1);
+}
+.button:hover {
+  background-color: rgba(181, 136, 244, 1);
+  animation-timing-function: ease-out;
+  animation-duration: 300ms;
+}

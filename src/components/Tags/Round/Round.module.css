@@ -1,0 +1,28 @@
+.tag {
+  width: 88;
+  height: 24;
+
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-family: FiraGO;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  color: rgba(255, 255, 255, 1);
+}
+.pink {
+  background-color: rgba(255, 102, 168, 1);
+}
+.orange {
+  background-color: rgba(253, 154, 106, 1);
+}
+.blue {
+  background-color: rgba(137, 182, 255, 1);
+}
+.green {
+  background-color: rgba(255, 216, 109, 1);
+}

@@ -1,0 +1,36 @@
+.button {
+  display: flex;
+  align-items: center;
+  padding-left: 4px;
+  border-radius: 5px;
+  gap: 4px;
+  border: 0.5px solid black;
+  font-family: FiraGO;
+}
+.big {
+  width: 106px;
+  height: 32px;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 150%;
+  letter-spacing: 0%;
+}
+.small {
+  width: 86px;
+  height: 26px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 150%;
+}
+.red {
+  border-color: rgba(250, 77, 77, 1);
+  color: rgba(250, 77, 77, 1);
+}
+.yellow {
+  border-color: rgba(255, 190, 11, 1);
+  color: rgba(255, 190, 11, 1);
+}
+.green {
+  border-color: rgba(8, 165, 8, 1);
+  color: rgba(8, 165, 8, 1);
+}
