@@ -1,0 +1,11 @@
+.lines {
+  display: flex;
+  gap: 52px;
+  margin-inline: auto;
+  width: fit-content;
+  margin-top: 79px;
+  margin-bottom: 152px;
+}
+.lines Line:last-child {
+  gap: 0;
+}

@@ -1,0 +1,25 @@
+.selects {
+  margin: 40 0 52 118;
+  display: flex;
+  width: 688px;
+  border-radius: 10px;
+  border: 1px solid rgba(222, 226, 230, 1);
+  justify-content: space-between;
+  padding-right: 20px;
+}
+.select {
+  width: fit;
+  padding: 12;
+  background-color: inherit;
+  color: black;
+  border: none;
+  outline: none;
+  font-family: FiraGO;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 100%;
+  letter-spacing: 0%;
+}
+.select:focus {
+  color: rgba(131, 56, 236, 1);
+}

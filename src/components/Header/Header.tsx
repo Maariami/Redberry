@@ -12,7 +12,7 @@ const Header = (props: Props) => {
         Momentum <img src="/images/Hourglass.png" alt="" />
       </div>
       <div className={styles.buttons}>
-        <Button1 color="red"></Button1>
+        <Button1></Button1>
         <Button2></Button2>
       </div>
     </header>

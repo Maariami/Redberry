@@ -1,0 +1,75 @@
+.task {
+  width: 381px;
+  height: 217px;
+  border-radius: 15px;
+  gap: 28px;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 1);
+  border: 1px solid rgba(206, 212, 218, 1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.head,
+.bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.buttons {
+  display: flex;
+  gap: 10px;
+}
+.date {
+  font-family: FiraGO;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  color: black;
+}
+.middle {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.middle h2 {
+  font-family: FiraGO;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  color: rgba(25, 25, 25, 1);
+}
+.middle p {
+  color: rgba(25, 25, 25, 1);
+  font-family: FiraGO;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 100%;
+  letter-spacing: 0%;
+}
+
+.comments {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: FiraGO;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  color: rgba(25, 25, 25, 1);
+}
+.yellow {
+  border-color: rgba(247, 188, 48, 1);
+}
+.red {
+  border-color: rgba(251, 86, 7, 1);
+}
+.pink {
+  border-color: rgba(255, 0, 110, 1);
+}
+.blue {
+  border-color: rgba(58, 134, 255, 1);
+}
