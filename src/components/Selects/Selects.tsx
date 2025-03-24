@@ -1,37 +1,105 @@
-import React from "react";
+"use client";
+import React, { useState, useEffect, useRef } from "react";
+import clsx from "clsx";
 import styles from "./Selects.module.css";
+import Button3 from "../Buttons/Button3/Button3";
+import CustomCheckbox from "../customCheckbox/CustomCheckbox";
 
-type Props = {};
+const Selects = () => {
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [visibleIndex, setVisibleIndex] = useState<number | null>(null);
+  const [checkedItems, setCheckedItems] = useState<boolean[][]>(
+    Array(3)
+      .fill(null)
+      .map(() => Array(3).fill(false))
+  );
 
-const Selects = (props: Props) => {
+  const options = ["დეპარტამენტი", "პრიორიტეტი", "თანამშრომელი"];
+
+  const content = [
+    [
+      "მარკეტინგის დეპარტამენტი",
+      "დიზაინის დეპარტამენტი",
+      "ლოგისტიკის დეპარტამენტი",
+    ],
+    ["მაღალი პრიორიტეტი", "საშუალო პრიორიტეტი", "დაბალი პრიორიტეტი"],
+    ["გიორგი", "ნინო", "ლაშა"],
+  ];
+
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const handleClick = (index: number) => {
+    if (visibleIndex === index) {
+      setVisibleIndex(null);
+      setCheckedItems(
+        Array(3)
+          .fill(null)
+          .map(() => Array(3).fill(false))
+      ); // Reset checkboxes
+    } else {
+      setVisibleIndex(index);
+    }
+    setSelectedIndex(index === selectedIndex ? null : index);
+  };
+
+  const toggleCheckbox = (categoryIndex: number, itemIndex: number) => {
+    const updatedCheckedItems = [...checkedItems];
+    updatedCheckedItems[categoryIndex][itemIndex] =
+      !updatedCheckedItems[categoryIndex][itemIndex];
+    setCheckedItems(updatedCheckedItems);
+  };
+
+  // Close dropdown and reset checkboxes when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setVisibleIndex(null);
+        setCheckedItems(
+          Array(3)
+            .fill(null)
+            .map(() => Array(3).fill(false))
+        ); // Reset checkboxes
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div className={styles.selects}>
-      <select className={styles.select} name="department">
-        <option value="">დეპარტამენტი</option>
-        <option value="design">დიზაინი</option>
-        <option value="marketiong">მარკეტინგი</option>
-        <option value="logistics">ლოჯისტიკა</option>
-        <option value="info tech">ინფ. ტექ.</option>
-      </select>
+    <div className={styles.selects} ref={dropdownRef}>
+      {options.map((text, index) => (
+        <div key={index}>
+          <div
+            className={clsx(styles.select, {
+              [styles.selected]: selectedIndex === index,
+            })}
+            onClick={() => handleClick(index)}
+          >
+            <p>{text}</p>
+            <img src="/images/down.png" alt="Dropdown arrow" />
+          </div>
+        </div>
+      ))}
 
-      <select className={styles.select} name="department">
-        <option value="">პრიორიტეტი</option>
-        <option value="high">მაღალი</option>
-        <option value="middle">საშუალო</option>
-        <option value="low">დაბალი</option>
-      </select>
-
-      <select className={styles.select} name="department">
-        <option value="">თანამშრომელი</option>
-        <option value="">მარიამი</option>
-        <option value="">ნატა</option>
-        <option value="">ნატალი</option>
-        <option value="">გიოლა</option>
-        <option value="">ნიკა</option>
-        <option value="">გიგი</option>
-        <option value="">ნინი</option>
-        <option value="">მარი</option>
-      </select>
+      {visibleIndex !== null && (
+        <div className={styles.dropdown}>
+          {content[visibleIndex].map((item, idx) => (
+            <CustomCheckbox
+              key={idx}
+              checked={checkedItems[visibleIndex][idx]}
+              onClick={() => toggleCheckbox(visibleIndex, idx)}
+              label={item}
+            />
+          ))}
+          <Button3 text="არჩევა" />
+        </div>
+      )}
     </div>
   );
 };

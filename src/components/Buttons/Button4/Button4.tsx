@@ -7,7 +7,7 @@ const Button4 = (props: Props) => {
   return (
     <div className={styles.button}>
       <img src="/images/Left 2.png" alt="" />
-      უპასუხე
+      <p>უპასუხე</p>
     </div>
   );
 };

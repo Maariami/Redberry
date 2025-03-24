@@ -1,0 +1,23 @@
+.name {
+  width: 168px;
+  height: 29px;
+  border-radius: 43px;
+  gap: 4px;
+  padding: 6px 10px;
+  border: 1px solid rgba(206, 212, 218, 1);
+  display: flex;
+  align-content: center;
+  justify-content: center;
+}
+.name p {
+  font-family: "Inter";
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  text-align: center;
+}
+.name img {
+  width: 14px;
+  height: 14px;
+}

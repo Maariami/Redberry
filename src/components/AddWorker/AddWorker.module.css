@@ -1,0 +1,20 @@
+.worker {
+  width: 550;
+  height: 48;
+  gap: 6px;
+  padding: 12px 15px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+}
+.worker p {
+  font-family: FiraGO;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 100%;
+  color: rgba(131, 56, 236, 1);
+}
+.worker img {
+  width: 18;
+  height: 18;
+}

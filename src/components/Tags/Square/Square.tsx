@@ -18,7 +18,7 @@ const getPriorityIcon = (priority: Priority) => {
     case "low":
       return { icon: "/images/Low.png", label: "დაბალი", color: "green" };
     default:
-      return { icon: "/images/Medium.png", label: "Medium", color: "yellow" };
+      return { icon: "/images/Medium.png", label: "Medium", color: "none" };
   }
 };
 
