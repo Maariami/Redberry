@@ -8,23 +8,45 @@ import CustomCheckbox from "../customCheckbox/CustomCheckbox";
 const Selects = () => {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [visibleIndex, setVisibleIndex] = useState<number | null>(null);
-  const [checkedItems, setCheckedItems] = useState<boolean[][]>(
-    Array(3)
-      .fill(null)
-      .map(() => Array(3).fill(false))
-  );
+  const [checkedItems, setCheckedItems] = useState<boolean[][]>([]);
+  const [departments, setDepartments] = useState<any[]>([]); // To store department data
+  const [priorities, setPriorities] = useState<any[]>([]); // To store priority data
 
   const options = ["დეპარტამენტი", "პრიორიტეტი", "თანამშრომელი"];
 
-  const content = [
-    [
-      "მარკეტინგის დეპარტამენტი",
-      "დიზაინის დეპარტამენტი",
-      "ლოგისტიკის დეპარტამენტი",
-    ],
-    ["მაღალი პრიორიტეტი", "საშუალო პრიორიტეტი", "დაბალი პრიორიტეტი"],
-    ["გიორგი", "ნინო", "ლაშა"],
-  ];
+  async function fetchData() {
+    try {
+      const [departmentsRes, prioritiesRes] = await Promise.all([
+        fetch("https://momentum.redberryinternship.ge/api/departments"),
+        fetch("https://momentum.redberryinternship.ge/api/priorities"),
+      ]);
+
+      if (!departmentsRes.ok) {
+        throw new Error("Failed to fetch departments");
+      }
+      if (!prioritiesRes.ok) {
+        throw new Error("Failed to fetch priorities");
+      }
+
+      const departmentsData = await departmentsRes.json();
+      const prioritiesData = await prioritiesRes.json();
+
+      setDepartments(departmentsData);
+      setPriorities(prioritiesData);
+
+      setCheckedItems([
+        new Array(departmentsData.length).fill(false),
+        new Array(prioritiesData.length).fill(false),
+        [],
+      ]);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -35,7 +57,7 @@ const Selects = () => {
         Array(3)
           .fill(null)
           .map(() => Array(3).fill(false))
-      ); // Reset checkboxes
+      );
     } else {
       setVisibleIndex(index);
     }
@@ -49,7 +71,6 @@ const Selects = () => {
     setCheckedItems(updatedCheckedItems);
   };
 
-  // Close dropdown and reset checkboxes when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -61,7 +82,7 @@ const Selects = () => {
           Array(3)
             .fill(null)
             .map(() => Array(3).fill(false))
-        ); // Reset checkboxes
+        );
       }
     };
 
@@ -89,14 +110,27 @@ const Selects = () => {
 
       {visibleIndex !== null && (
         <div className={styles.dropdown}>
-          {content[visibleIndex].map((item, idx) => (
-            <CustomCheckbox
-              key={idx}
-              checked={checkedItems[visibleIndex][idx]}
-              onClick={() => toggleCheckbox(visibleIndex, idx)}
-              label={item}
-            />
-          ))}
+          {visibleIndex === 0 && departments.length > 0 ? (
+            departments.map((department, idx) => (
+              <CustomCheckbox
+                key={idx}
+                checked={checkedItems[0][idx]}
+                onClick={() => toggleCheckbox(0, idx)}
+                label={department.name}
+              />
+            ))
+          ) : visibleIndex === 1 && priorities.length > 0 ? (
+            priorities.map((priority, idx) => (
+              <CustomCheckbox
+                key={idx}
+                checked={checkedItems[1][idx]}
+                onClick={() => toggleCheckbox(1, idx)}
+                label={priority.name}
+              />
+            ))
+          ) : (
+            <p className={styles.noData}>მონაცემები არ არის</p>
+          )}
           <Button3 text="არჩევა" />
         </div>
       )}
