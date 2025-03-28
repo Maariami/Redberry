@@ -1,0 +1,56 @@
+.box {
+  display: flex;
+  width: 259px;
+  height: 46px;
+  border-radius: 5px;
+  border: 1px solid rgba(222, 226, 230, 1);
+  padding: 12px 14px;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  background-color: white;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.active {
+  transform: rotate(180deg);
+}
+
+.newDiv {
+  width: 259px;
+  border: 1px solid rgba(222, 226, 230, 1);
+  border-top: none;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+}
+
+.statusItem {
+  display: flex;
+  width: 259px;
+  height: 46px;
+  gap: 6px;
+  padding: 12px 14px;
+  align-items: center;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+
+.statusItem:hover {
+  background-color: rgba(240, 240, 240, 1);
+}
+
+.statusItem p {
+  font-size: 14px;
+  color: rgba(33, 37, 41, 1);
+  margin: 0;
+  flex-grow: 1;
+}
+
+.clicked {
+  border-bottom: none;
+}

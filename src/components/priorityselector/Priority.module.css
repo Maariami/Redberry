@@ -1,0 +1,44 @@
+.box {
+  display: flex;
+  width: 259;
+  height: 46;
+  border-radius: 5px;
+  border: 1px solid rgba(222, 226, 230, 1);
+  padding: 14px;
+  justify-content: space-between;
+  align-items: center;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+}
+.active {
+  rotate: 180deg;
+}
+
+.newDiv {
+  width: 259;
+  border: 1px solid rgba(222, 226, 230, 1);
+  border-top: none;
+  display: flex;
+  flex-direction: column;
+}
+.priorityItem {
+  display: flex;
+  width: 259;
+  height: 46;
+  gap: 6px;
+  padding-top: 12px;
+  padding-right: 14px;
+  padding-bottom: 12px;
+  padding-left: 14px;
+  align-items: center;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+.priorityItem:hover {
+  background-color: rgba(240, 240, 240, 1);
+}
+.clicked {
+  border-bottom: none;
+}
