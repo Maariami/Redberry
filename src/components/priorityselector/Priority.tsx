@@ -38,6 +38,12 @@ const Priority = (props: Props) => {
 
   return (
     <div className={styles.container}>
+      <p
+        className={`${styles.title} ${isOpen ? styles.titlepurp : ""}`}
+        onClick={handleClick}
+      >
+        პრიორიტეტი*
+      </p>
       <div
         className={`${styles.box} ${isOpen ? styles.clicked : ""}`}
         onClick={handleClick}

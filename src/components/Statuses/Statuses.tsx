@@ -35,6 +35,12 @@ const Status = () => {
 
   return (
     <div className={styles.container}>
+      <p
+        className={`${styles.title} ${isOpen ? styles.titlepurp : ""}`}
+        onClick={handleClick}
+      >
+        სტატუსი*
+      </p>
       <div
         className={`${styles.box} ${isOpen ? styles.clicked : ""}`}
         onClick={handleClick}

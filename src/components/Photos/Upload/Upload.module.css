@@ -1,0 +1,32 @@
+.title {
+  font-family: FiraGO;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  color: rgba(52, 58, 64, 1);
+  margin-bottom: 6px;
+}
+.block {
+  display: flex;
+  flex-direction: column;
+  width: 813;
+  height: 120;
+  border-radius: 8px;
+  border-width: 1px;
+  background-color: rgba(255, 255, 255, 1);
+  border: dashed 1px rgba(206, 212, 218, 1);
+  gap: 5px;
+  justify-content: center;
+  align-items: center;
+}
+.block p {
+  font-family: FiraGO;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  color: rgba(52, 58, 64, 1);
+}
+.block img {
+}

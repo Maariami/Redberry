@@ -8,17 +8,25 @@ type Props = {
 const show = (image: Image) => {
   switch (image) {
     case "show":
-      return { photo: "/images/Ellipse 3892.png", text: "Tamar kvantalia" };
+      return {
+        photo: "/images/Ellipse 3892.png",
+        text: "Tamar kvantalia",
+        style: "black",
+      };
     case "add":
-      return { photo: "/images/AddWorker.png", text: "დაამატე თანამშრომელი" };
+      return {
+        photo: "/images/AddWorker.png",
+        text: "დაამატე თანამშრომელი",
+        style: "purple",
+      };
   }
 };
 const AddWorker = ({ image }: Props) => {
-  const { photo, text } = show(image);
+  const { photo, text, style } = show(image);
   return (
     <div className={styles.worker}>
       <img src={photo} alt="" />
-      <p>{text}</p>
+      <p className={styles[style]}>{text}</p>
     </div>
   );
 };

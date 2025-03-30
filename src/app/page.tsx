@@ -2,9 +2,9 @@ import Header from "@/components/Header/Header";
 import styles from "./page.module.css";
 import Lines from "@/components/Lines/Lines";
 import Selects from "@/components/Selects/Selects";
-import Priority from "@/components/priorityselector/Priority";
-import Statuses from "@/components/Statuses/Statuses";
-import DatePicker from "@/components/Calendar/DataPicker";
+import Departments from "@/components/Departments/Departments";
+import Coworkers from "@/components/Coworkers/Coworkers";
+import Description from "@/components/Description/Description";
 
 export default function Home() {
   return (
@@ -13,9 +13,9 @@ export default function Home() {
       <div className={styles.head}>დავალებების გვერდი</div>
       <Selects></Selects>
       <Lines></Lines>
-      <Priority></Priority>
-      <Statuses></Statuses>
-      <DatePicker></DatePicker>
+      <Departments></Departments>
+      <Description text="agwera" length="long"></Description>
+      <Description text="satauri" length="short"></Description>
     </>
   );
 }
