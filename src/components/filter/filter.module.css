@@ -1,0 +1,20 @@
+.box {
+  margin: 25px 0;
+  margin-left: 120px;
+}
+.picked {
+  box-sizing: border-box;
+  display: flex;
+  gap: 8px;
+  width: fit-content;
+  padding: 6px 10px;
+  border-radius: 43px;
+  border: 1px solid rgba(206, 212, 218, 1);
+  color: rgba(52, 58, 64, 1);
+  font-family: FiraGO;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  text-align: center;
+}

@@ -1,17 +1,18 @@
 import clsx from "clsx";
 import React from "react";
 import styles from "./Round.module.css";
-type Color = "pink" | "orange" | "blue" | "yellow";
+
+type Color = "pink" | "red" | "blue" | "yellow";
 
 type Props = {
   color: Color;
 };
 
-const getcolor = (color: Color) => {
+const getColor = (color: Color) => {
   switch (color) {
     case "pink":
       return { text: "დიზაინი" };
-    case "orange":
+    case "red":
       return { text: "მარკეტინგი" };
     case "blue":
       return { text: "ლოჯისტიკა" };
@@ -23,7 +24,7 @@ const getcolor = (color: Color) => {
 };
 
 const Round = ({ color }: Props) => {
-  const { text } = getcolor(color);
+  const { text } = getColor(color);
   return <div className={clsx(styles.tag, styles[color])}>{text}</div>;
 };
 

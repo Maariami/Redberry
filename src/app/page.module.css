@@ -172,3 +172,9 @@ a.secondary {
   color: black;
   margin: 40 0 52 118;
 }
+
+.dash {
+  padding-inline: 120px;
+  display: flex;
+  justify-content: space-between;
+}

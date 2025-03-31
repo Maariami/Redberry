@@ -1,5 +1,5 @@
 .selects {
-  margin: 40 0 52 118;
+  margin: 40 0 0 118;
   display: flex;
   width: 688px;
   border-radius: 10px;
@@ -45,4 +45,14 @@
 .dropdown div:last-child {
   justify-self: flex-end;
   align-self: flex-end;
+}
+.employeeItem {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 100;
 }

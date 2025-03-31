@@ -1,10 +1,8 @@
 import Header from "@/components/Header/Header";
 import styles from "./page.module.css";
-import Lines from "@/components/Lines/Lines";
+import Line from "@/components/Line/Line";
 import Selects from "@/components/Selects/Selects";
-import Departments from "@/components/Departments/Departments";
-import Coworkers from "@/components/Coworkers/Coworkers";
-import Description from "@/components/Description/Description";
+import Filter from "@/components/filter/filter";
 
 export default function Home() {
   return (
@@ -12,10 +10,13 @@ export default function Home() {
       <Header></Header>
       <div className={styles.head}>დავალებების გვერდი</div>
       <Selects></Selects>
-      <Lines></Lines>
-      <Departments></Departments>
-      <Description text="agwera" length="long"></Description>
-      <Description text="satauri" length="short"></Description>
+      <Filter></Filter>
+      <div className={styles.dash}>
+        <Line color="red" status="დასაწყები" />
+        <Line color="pink" status="დასრულებული" />
+        <Line color="yellow" status="პროგრესში" />
+        <Line color="blue" status="მზად ტესტირებისთვის" />
+      </div>
     </>
   );
 }
