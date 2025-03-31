@@ -7,7 +7,7 @@ import CustomCheckbox from "../customCheckbox/CustomCheckbox";
 import Filtered from "../Filtered/Filtered";
 
 interface SelectsProps {
-  setSelectedItems: (items: string[]) => void; // Prop to pass selectedItems to parent
+  setSelectedItems: (items: { name: string; category: string }[]) => void;
 }
 
 const Selects = ({ setSelectedItems }: SelectsProps) => {
@@ -17,7 +17,9 @@ const Selects = ({ setSelectedItems }: SelectsProps) => {
   const [departments, setDepartments] = useState<any[]>([]);
   const [priorities, setPriorities] = useState<any[]>([]);
   const [employees, setEmployees] = useState<any[]>([]);
-  const [selectedItems, setLocalSelectedItems] = useState<string[]>([]); // Local state for selected items
+  const [selectedItems, setLocalSelectedItems] = useState<
+    { name: string; category: string }[]
+  >([]);
 
   const options = ["დეპარტამენტი", "პრიორიტეტი", "თანამშრომელი"];
 
@@ -79,29 +81,40 @@ const Selects = ({ setSelectedItems }: SelectsProps) => {
       .flatMap((category, catIdx) =>
         category.map((isChecked, idx) =>
           isChecked
-            ? catIdx === 0
-              ? departments[idx]?.name
-              : catIdx === 1
-              ? priorities[idx]?.name
-              : employees[idx]
-              ? `${employees[idx].name} ${employees[idx].surname}`
-              : null
+            ? {
+                name:
+                  catIdx === 0
+                    ? departments[idx]?.name
+                    : catIdx === 1
+                    ? priorities[idx]?.name
+                    : employees[idx]
+                    ? `${employees[idx].name} ${employees[idx].surname}`
+                    : null,
+                category:
+                  catIdx === 0
+                    ? "department"
+                    : catIdx === 1
+                    ? "priority"
+                    : "employee",
+              }
             : null
         )
       )
-      .filter(Boolean);
+      .filter(
+        (item): item is { name: string; category: string } => item !== null
+      );
 
     console.log("Current selected items list:", selected);
-    setLocalSelectedItems(selected); // Update local state
-    setSelectedItems(selected); // Pass to parent
+    setLocalSelectedItems(selected);
+    setSelectedItems(selected);
   };
 
   const removeItem = (itemToRemove: string) => {
     const updatedSelectedItems = selectedItems.filter(
-      (item) => item !== itemToRemove
+      (item) => item.name !== itemToRemove
     );
     setLocalSelectedItems(updatedSelectedItems);
-    setSelectedItems(updatedSelectedItems); // Update parent
+    setSelectedItems(updatedSelectedItems);
 
     const updatedCheckedItems = [...checkedItems];
 
@@ -210,7 +223,10 @@ const Selects = ({ setSelectedItems }: SelectsProps) => {
           </div>
         )}
       </div>
-      <Filtered selectedItems={selectedItems} removeItem={removeItem} />
+      <Filtered
+        selectedItems={selectedItems.map((item) => item.name)}
+        removeItem={removeItem}
+      />
     </div>
   );
 };

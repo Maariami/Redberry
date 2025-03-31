@@ -3,7 +3,7 @@ import styles from "./Filtered.module.css";
 
 type Props = {
   selectedItems?: string[];
-  removeItem?: (item: string) => void; // Add removeItem prop
+  removeItem?: (item: string) => void;
 };
 
 const Filtered = ({ selectedItems = [], removeItem }: Props) => {

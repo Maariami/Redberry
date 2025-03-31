@@ -10,7 +10,7 @@ type Status = "დასაწყები" | "პროგრესში" | "�
 type Props = {
   color: Color;
   status: Status;
-  selectedItems: string[]; // Add selectedItems prop
+  selectedItems: { name: string; category: string }[];
 };
 
 const Line = ({ color, status, selectedItems }: Props) => {
@@ -52,20 +52,40 @@ const Line = ({ color, status, selectedItems }: Props) => {
     return <div>No task data available</div>;
   }
 
-  // Filter tasks based on the current line's status and selectedItems
+  // Filter tasks based on the current line's status
   let filteredTasks = tasks.filter((task) => task.status.name === status);
 
-  // If there are selected items, further filter tasks based on departments, priorities, and employees
+  // Categorize selectedItems into departments, priorities, and employees
+  const selectedDepartments = selectedItems
+    .filter((item) => item.category === "department")
+    .map((item) => item.name);
+  const selectedPriorities = selectedItems
+    .filter((item) => item.category === "priority")
+    .map((item) => item.name);
+  const selectedEmployees = selectedItems
+    .filter((item) => item.category === "employee")
+    .map((item) => item.name);
+
+  // Apply AND filtering based on selectedItems
   if (selectedItems.length > 0) {
     filteredTasks = filteredTasks.filter((task) => {
       const taskDepartment = task.department?.name;
       const taskPriority = task.priority?.name;
       const taskEmployee = `${task.employee?.name} ${task.employee?.surname}`;
 
-      // Check if the task matches any of the selected items
-      return selectedItems.some((item) =>
-        [taskDepartment, taskPriority, taskEmployee].includes(item)
-      );
+      // Check if the task matches all specified filters
+      const matchesDepartment =
+        selectedDepartments.length === 0 ||
+        selectedDepartments.includes(taskDepartment);
+      const matchesPriority =
+        selectedPriorities.length === 0 ||
+        selectedPriorities.includes(taskPriority);
+      const matchesEmployee =
+        selectedEmployees.length === 0 ||
+        selectedEmployees.includes(taskEmployee);
+
+      // Task must match all conditions (AND)
+      return matchesDepartment && matchesPriority && matchesEmployee;
     });
   }
 

@@ -6,7 +6,9 @@ import Line from "@/components/Line/Line";
 import Selects from "@/components/Selects/Selects";
 
 export default function Home() {
-  const [selectedItems, setSelectedItems] = useState<string[]>([]);
+  const [selectedItems, setSelectedItems] = useState<
+    { name: string; category: string }[]
+  >([]);
 
   return (
     <>
