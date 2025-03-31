@@ -1,21 +1,28 @@
+"use client";
+import React, { useState } from "react";
 import Header from "@/components/Header/Header";
 import styles from "./page.module.css";
 import Line from "@/components/Line/Line";
 import Selects from "@/components/Selects/Selects";
-import Filter from "@/components/filter/filter";
 
 export default function Home() {
+  const [selectedItems, setSelectedItems] = useState<string[]>([]);
+
   return (
     <>
-      <Header></Header>
-      <div className={styles.head}>დავალებების გვერდი</div>
-      <Selects></Selects>
-      <Filter></Filter>
+      <Header />
+      <div className={styles.head}>
+        <Selects setSelectedItems={setSelectedItems} />
+      </div>
       <div className={styles.dash}>
-        <Line color="red" status="დასაწყები" />
-        <Line color="pink" status="დასრულებული" />
-        <Line color="yellow" status="პროგრესში" />
-        <Line color="blue" status="მზად ტესტირებისთვის" />
+        <Line color="red" status="დასაწყები" selectedItems={selectedItems} />
+        <Line color="pink" status="პროგრესში" selectedItems={selectedItems} />
+        <Line
+          color="yellow"
+          status="მზად ტესტირებისთვის"
+          selectedItems={selectedItems}
+        />
+        <Line color="blue" status="დასრულებული" selectedItems={selectedItems} />
       </div>
     </>
   );

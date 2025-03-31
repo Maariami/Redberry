@@ -85,3 +85,6 @@
 .comments {
   margin-left: auto;
 }
+.bottom p {
+  color: rgba(13, 15, 16, 1);
+}
