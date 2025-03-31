@@ -8,36 +8,70 @@ import CustomCheckbox from "../customCheckbox/CustomCheckbox";
 const Selects = () => {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [visibleIndex, setVisibleIndex] = useState<number | null>(null);
-  const [checkedItems, setCheckedItems] = useState<boolean[][]>([]);
+  const [checkedItems, setCheckedItems] = useState<boolean[][]>([
+    new Array(3).fill(false),
+    new Array(3).fill(false),
+    [],
+  ]);
   const [departments, setDepartments] = useState<any[]>([]); // To store department data
   const [priorities, setPriorities] = useState<any[]>([]); // To store priority data
+  const [employees, setEmployees] = useState<any[]>([]); // To store employee data
 
   const options = ["დეპარტამენტი", "პრიორიტეტი", "თანამშრომელი"];
 
   async function fetchData() {
     try {
-      const [departmentsRes, prioritiesRes] = await Promise.all([
-        fetch("https://momentum.redberryinternship.ge/api/departments"),
-        fetch("https://momentum.redberryinternship.ge/api/priorities"),
+      console.log("Fetching data...");
+
+      const token = "9e8fae87-b024-4cd6-ad8f-dffb3840af32"; // Your token
+
+      const [departmentsRes, prioritiesRes, employeesRes] = await Promise.all([
+        fetch("https://momentum.redberryinternship.ge/api/departments", {
+          headers: {
+            Authorization: `Bearer ${token}`, // Add Authorization header
+          },
+        }),
+        fetch("https://momentum.redberryinternship.ge/api/priorities", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }),
+        fetch("https://momentum.redberryinternship.ge/api/employees", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }),
       ]);
 
       if (!departmentsRes.ok) {
+        console.error("Failed to fetch departments", departmentsRes.statusText);
         throw new Error("Failed to fetch departments");
       }
       if (!prioritiesRes.ok) {
+        console.error("Failed to fetch priorities", prioritiesRes.statusText);
         throw new Error("Failed to fetch priorities");
+      }
+      if (!employeesRes.ok) {
+        console.error("Failed to fetch employees", employeesRes.statusText);
+        throw new Error("Failed to fetch employees");
       }
 
       const departmentsData = await departmentsRes.json();
       const prioritiesData = await prioritiesRes.json();
+      const employeesData = await employeesRes.json();
+
+      console.log("Departments data:", departmentsData);
+      console.log("Priorities data:", prioritiesData);
+      console.log("Employees data:", employeesData);
 
       setDepartments(departmentsData);
       setPriorities(prioritiesData);
+      setEmployees(employeesData);
 
       setCheckedItems([
         new Array(departmentsData.length).fill(false),
         new Array(prioritiesData.length).fill(false),
-        [],
+        new Array(employeesData.length).fill(false),
       ]);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -126,6 +160,24 @@ const Selects = () => {
                 checked={checkedItems[1][idx]}
                 onClick={() => toggleCheckbox(1, idx)}
                 label={priority.name}
+              />
+            ))
+          ) : visibleIndex === 2 && employees.length > 0 ? (
+            employees.map((employee, idx) => (
+              <CustomCheckbox
+                key={idx}
+                checked={checkedItems[2][idx]}
+                onClick={() => toggleCheckbox(2, idx)}
+                label={
+                  <div className={styles.employeeItem}>
+                    <img
+                      src={employee.avatar || "/images/default-avatar.png"}
+                      alt={employee.name}
+                      className={styles.avatar}
+                    />
+                    <span>{`${employee.name} ${employee.surname}`}</span>
+                  </div>
+                }
               />
             ))
           ) : (
