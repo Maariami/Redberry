@@ -1,5 +1,6 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React from "react";
+import Link from "next/link";
 import Styles from "./Task.module.css";
 import Square from "../Tags/Square/Square";
 import Round from "../Tags/Round/Round";
@@ -17,11 +18,22 @@ const Task = ({
   border: Border;
   task: any;
 }) => {
-  const { name, description, due_date, priority, employee } = task;
+  const {
+    id,
+    name,
+    description,
+    due_date,
+    priority,
+    employee,
+    total_comments,
+  } = task;
   const dueDate = new Date(due_date).toLocaleDateString();
 
   return (
-    <div className={clsx(Styles.task, Styles[border])}>
+    <Link
+      href={`/taskpage/${id}`} // Correct dynamic route using task ID
+      className={clsx(Styles.task, Styles[border])}
+    >
       <div className={Styles.head}>
         <div className={Styles.buttons}>
           <Square priority={priority.name} size="small" />
@@ -44,10 +56,10 @@ const Task = ({
         </p>
         <div className={Styles.comments}>
           <img src="/images/Comments.png" alt="" />
-          <p>{task.total_comments}</p>
+          <p>{total_comments}</p>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
