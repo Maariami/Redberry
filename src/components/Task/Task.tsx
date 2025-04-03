@@ -37,7 +37,7 @@ const Task = ({
       <div className={Styles.head}>
         <div className={Styles.buttons}>
           <Square priority={priority.name} size="small" />
-          <Round color={color} />
+          <Round text={task.department.name} color={color} />
         </div>
         <div className={Styles.date}>{dueDate}</div>
       </div>

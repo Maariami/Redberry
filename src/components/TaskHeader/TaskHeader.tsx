@@ -9,13 +9,13 @@ type Props = {
 const getcolor = (color: Color) => {
   switch (color) {
     case "pink":
-      return { text: "დასაწყები" };
-    case "red":
-      return { text: "პროცესში" };
-    case "blue":
       return { text: "მზად ტესტირებისთვის" };
-    case "yellow":
+    case "red":
+      return { text: "პროგრესში" };
+    case "blue":
       return { text: "დასრულებული" };
+    case "yellow":
+      return { text: "დასაწყები" };
     default:
       return { text: "დასაწყები" };
   }

@@ -112,11 +112,7 @@ const TaskPage = () => {
         <div className={styles.container}>
           <div className={styles.taskDetails}>
             <Square priority={task.priority.name} size="big" />
-            <Round
-              color={
-                task.department.id === "pink" || "red" || "blue" || "yellow"
-              }
-            />
+            <Round text={task.department.name} status={task.status.name} />
           </div>
           <h1 className={styles.title}>{task.name}</h1>
           <p className={styles.description}>{task.description}</p>

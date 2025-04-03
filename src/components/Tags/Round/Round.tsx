@@ -3,29 +3,43 @@ import React from "react";
 import styles from "./Round.module.css";
 
 type Color = "pink" | "red" | "blue" | "yellow";
+type StatusType =
+  | "დასაწყები"
+  | "პროგრესში"
+  | "მზად ტესტირებისთვის"
+  | "დასრულებული";
 
 type Props = {
-  color: Color;
+  color?: Color;
+  status?: StatusType;
+  text: string;
 };
 
-const getColor = (color: Color) => {
-  switch (color) {
-    case "pink":
-      return { text: "დიზაინი" };
-    case "red":
-      return { text: "მარკეტინგი" };
-    case "blue":
-      return { text: "ლოჯისტიკა" };
-    case "yellow":
-      return { text: "ინფ. ტექ." };
+const Round = ({ color, status, text }: Props) => {
+  let statusText;
+
+  switch (status) {
+    case "დასაწყები":
+      statusText = "yellow";
+      break;
+    case "პროგრესში":
+      statusText = "red";
+      break;
+    case "მზად ტესტირებისთვის":
+      statusText = "pink";
+      break;
+    case "დასრულებული":
+      statusText = "blue";
+      break;
     default:
-      return { text: "დიზაინი" };
+      statusText = text; // Default to the passed text if no status
   }
-};
 
-const Round = ({ color }: Props) => {
-  const { text } = getColor(color);
-  return <div className={clsx(styles.tag, styles[color])}>{text}</div>;
+  return (
+    <div className={clsx(styles.tag, styles[color], styles[statusText])}>
+      {text}
+    </div>
+  );
 };
 
 export default Round;

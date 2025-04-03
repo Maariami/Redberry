@@ -17,10 +17,10 @@ export default function Home() {
         <Selects setSelectedItems={setSelectedItems} />
       </div>
       <div className={styles.dash}>
-        <Line color="red" status="დასაწყები" selectedItems={selectedItems} />
-        <Line color="pink" status="პროგრესში" selectedItems={selectedItems} />
+        <Line color="yellow" status="დასაწყები" selectedItems={selectedItems} />
+        <Line color="red" status="პროგრესში" selectedItems={selectedItems} />
         <Line
-          color="yellow"
+          color="pink"
           status="მზად ტესტირებისთვის"
           selectedItems={selectedItems}
         />
