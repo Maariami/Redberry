@@ -1,23 +1,41 @@
-"use client"; // This ensures the code runs only on the client-side
+"use client";
 
-import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
+import Round from "@/components/Tags/Round/Round";
+import Square from "@/components/Tags/Square/Square";
+import styles from "./singletask.module.css";
+import Header from "@/components/Header/Header";
+import Status from "@/components/Statuses/Statuses";
+import AddWorker from "@/components/AddWorker/AddWorker";
+import Button3 from "@/components/Buttons/Button3/Button3";
+import Statement from "@/components/Comments/Statement/Statement"; // Assuming this is for displaying comments
+import Reply from "@/components/Comments/Reply/Reply"; // Assuming this is for displaying replies
+
+const API_TOKEN = "9e8fae87-b024-4cd6-ad8f-dffb3840af32"; // API token
 
 const TaskPage = () => {
-  const router = useRouter();
-  const { id } = router.query; // Get the task ID from the URL
-  const [task, setTask] = useState<any>(null);
+  const { id } = useParams(); // Get task ID from the URL
+  const [task, setTask] = useState(null);
+  const [comments, setComments] = useState([]); // State for comments
+  const [newComment, setNewComment] = useState(""); // State for new comment text
   const [loading, setLoading] = useState(true);
 
-  // Use `useEffect` to avoid accessing `router.query` before it is available
   useEffect(() => {
-    if (!id) return; // Don't fetch if the ID is not available yet
+    if (!id) return;
 
     const fetchTask = async () => {
       try {
         const response = await fetch(
-          `https://momentum.redberryinternship.ge/api/tasks/${id}`
+          `https://momentum.redberryinternship.ge/api/tasks/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${API_TOKEN}`,
+              "Content-Type": "application/json",
+            },
+          }
         );
+
         if (!response.ok) throw new Error("Task not found");
         const data = await response.json();
         setTask(data);
@@ -28,26 +46,155 @@ const TaskPage = () => {
       }
     };
 
+    // Fetch comments
+    const fetchComments = async () => {
+      try {
+        const commentsResponse = await fetch(
+          `https://momentum.redberryinternship.ge/api/tasks/${id}/comments`,
+          {
+            headers: {
+              Authorization: `Bearer ${API_TOKEN}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (!commentsResponse.ok) throw new Error("Comments not found");
+        const commentsData = await commentsResponse.json();
+        setComments(commentsData);
+      } catch (error) {
+        console.error("Error fetching comments:", error);
+      }
+    };
+
     fetchTask();
-  }, [id]); // Fetch when `id` changes
+    fetchComments(); // Fetch comments
+  }, [id]);
+
+  // Handle new comment submission
+  const handleNewCommentSubmit = async () => {
+    if (!newComment.trim()) return; // Don't submit empty comments
+
+    try {
+      const response = await fetch(
+        `https://momentum.redberryinternship.ge/api/tasks/${id}/comments`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${API_TOKEN}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            text: newComment,
+            task_id: id,
+          }),
+        }
+      );
+
+      if (!response.ok) throw new Error("Failed to post comment");
+
+      // Add the new comment to the list without reloading the page
+      const newCommentData = await response.json();
+      setComments((prevComments) => [newCommentData, ...prevComments]);
+      setNewComment(""); // Clear the textarea after submission
+    } catch (error) {
+      console.error("Error posting comment:", error);
+    }
+  };
 
   if (loading) return <p>Loading...</p>;
   if (!task) return <p>Task not found.</p>;
 
   return (
-    <div>
-      <h1>{task.name}</h1>
-      <p>{task.description}</p>
-      <p>Due Date: {new Date(task.due_date).toLocaleDateString()}</p>
-      <p>Priority: {task.priority.name}</p>
-      <div>
-        <img src={task.employee.avatar} alt={task.employee.name} width={50} />
-        <p>
-          {task.employee.name} {task.employee.surname}
-        </p>
+    <>
+      <Header></Header>
+      <div className={styles.page}>
+        <div className={styles.container}>
+          <div className={styles.taskDetails}>
+            <Square priority={task.priority.name} size="big" />
+            <Round
+              color={
+                task.department.id === "pink" || "red" || "blue" || "yellow"
+              }
+            />
+          </div>
+          <h1 className={styles.title}>{task.name}</h1>
+          <p className={styles.description}>{task.description}</p>
+
+          <div className={styles.details}>
+            <div className={styles.detailsheader}>დავალების დეტალები</div>
+            <div className={styles.detail}>
+              <div className={styles.lefts}>
+                <img src="/images/pie-chart.png" alt="" />
+                სტატუსი
+              </div>
+              <div className={styles.rights}>
+                <Status defaultStatus={task.status.name}></Status>
+              </div>
+            </div>
+
+            <div className={styles.detail}>
+              <div className={styles.lefts}>
+                <img src="/images/Frame 1000005864.png" alt="" />
+                თანამშრომელი
+              </div>
+              <div className={styles.rights}>
+                <AddWorker
+                  name={task.employee.name}
+                  photo={task.employee.avatar}
+                  image="show"
+                ></AddWorker>
+              </div>
+            </div>
+
+            <div className={styles.detail}>
+              <div className={styles.lefts}>
+                <img src="/images/calendar-line.png" alt="" />
+                დავალების ვადა
+              </div>
+              <div className={styles.rights}>
+                {new Date(task.due_date).toLocaleDateString()}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className={styles.comments}>
+          <div className={styles.newcomment}>
+            <textarea
+              className={styles.addcomment}
+              name="addcomment"
+              placeholder="დაწერე კომენტარი"
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)} // Update state with textarea value
+            ></textarea>
+            <div className={styles.button3}>
+              <Button3
+                text="დააკომენტარე"
+                onClick={handleNewCommentSubmit}
+              ></Button3>
+            </div>
+          </div>
+          <div className={styles.commenthead}>
+            <p>კომენტარები</p>
+            <p className={styles.number}>{comments.length} </p>
+          </div>
+          <div className={styles.actualcommet}>
+            {comments.map((comment) => (
+              <div key={comment.id} className={styles.actualcommet}>
+                <Reply comment={comment} />
+                {comment.sub_comments && comment.sub_comments.length > 0 && (
+                  <div className={styles.replytocomment}>
+                    {comment.sub_comments.map((subComment) => (
+                      <Statement key={subComment.id} comment={subComment} />
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
-      <p>Total Comments: {task.total_comments}</p>
-    </div>
+    </>
   );
 };
 

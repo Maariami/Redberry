@@ -24,4 +24,5 @@
 .image {
   width: 38;
   height: 38;
+  border-radius: 100px;
 }

@@ -1,0 +1,137 @@
+.page {
+  width: 100%;
+  margin-top: 40px;
+  padding-inline: 120px;
+  display: flex;
+  justify-content: space-between;
+}
+.container {
+  width: fit-content;
+}
+.taskDetails {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+}
+.title {
+  font-family: Inter;
+  font-weight: 600;
+  font-size: 34px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  color: rgba(33, 37, 41, 1);
+  margin-top: 12px;
+  margin-bottom: 36px;
+}
+
+.description {
+  color: rgba(33, 37, 41, 1);
+  font-family: FiraGO;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 150%;
+  letter-spacing: 0%;
+}
+.details {
+  margin-top: 63px;
+}
+
+.detailsheader {
+  color: rgba(42, 42, 42, 1);
+  font-family: FiraGO;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  margin-bottom: 41px;
+}
+.detail {
+  display: flex;
+  align-items: center;
+  gap: 70px;
+  color: rgba(71, 71, 71, 1);
+  font-family: FiraGO;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 150%;
+  letter-spacing: 0%;
+  margin-bottom: 46px;
+}
+
+.lefts {
+  width: 164px;
+  display: flex;
+  align-items: center;
+  font-family: FiraGO;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  letter-spacing: 0%;
+  gap: 6px;
+}
+.lefts img {
+  width: 24px;
+  height: 24px;
+}
+.comments {
+  margin-top: 59px;
+  width: 741;
+  padding: 40px 45px 52px 54px;
+  border-radius: 10px;
+  border: 0.3px solid rgba(221, 210, 255, 1);
+  background-color: rgba(248, 243, 254, 0.65);
+}
+
+.addcomment {
+  border: none;
+  outline: none;
+  color: black;
+  width: 100%;
+  height: 100%;
+  background-color: inherit;
+}
+.newcomment {
+  border: 0.3px solid rgba(173, 181, 189, 1);
+  border-radius: 10px;
+  background-color: white;
+  width: 651;
+  height: 135;
+  padding-top: 18px;
+  padding-bottom: 20px;
+  padding-inline: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.button3 {
+  align-self: self-end;
+}
+.commenthead {
+  font-family: FiraGO;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  color: black;
+  margin-top: 66px;
+  display: flex;
+  gap: 7px;
+  align-items: center;
+}
+.number {
+  background-color: rgba(131, 56, 236, 1);
+  width: fit-content;
+  height: fit-content;
+  padding: 3px 10px;
+  border-radius: 30px;
+  text-align: center;
+  color: white;
+}
+.actualcommet {
+  color: black;
+  margin-top: 38px;
+}
+.replytocomment {
+  margin-left: 42px;
+  margin-top: 20px;
+}

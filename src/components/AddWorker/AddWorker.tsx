@@ -2,15 +2,19 @@ import React from "react";
 import styles from "./AddWorker.module.css";
 
 type Image = "add" | "show";
+
 type Props = {
   image: Image;
+  name?: string;
+  photo?: string;
 };
-const show = (image: Image) => {
+
+const show = (image: Image, name?: string, photo?: string) => {
   switch (image) {
     case "show":
       return {
-        photo: "/images/Ellipse 3892.png",
-        text: "Tamar kvantalia",
+        photo: photo, // Default image if none is provided
+        text: name,
         style: "black",
       };
     case "add":
@@ -21,11 +25,12 @@ const show = (image: Image) => {
       };
   }
 };
-const AddWorker = ({ image }: Props) => {
-  const { photo, text, style } = show(image);
+
+const AddWorker = ({ image, name, photo }: Props) => {
+  const { photo: displayPhoto, text, style } = show(image, name, photo);
   return (
     <div className={styles.worker}>
-      <img src={photo} alt="" />
+      <img src={displayPhoto} alt={text} />
       <p className={styles[style]}>{text}</p>
     </div>
   );
