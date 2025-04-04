@@ -8,7 +8,7 @@
 }
 .box {
   margin-top: 6px;
-  width: 384;
+  width: 100%;
   height: 42;
   border-radius: 6px;
   justify-content: space-between;
@@ -36,4 +36,46 @@
   letter-spacing: 0%;
   color: rgba(108, 117, 125, 1);
   gap: 2px;
+}
+.body {
+  display: flex;
+  flex-direction: column;
+  width: 384;
+}
+/* In Namevalidation.module.css */
+.defaultInput {
+  border-color: #ccc; /* Neutral color before interaction */
+}
+
+.validInput {
+  border-color: green; /* Green for valid input */
+}
+
+.invalidInput {
+  border-color: red; /* Red for invalid input */
+}
+
+.defaultValidate {
+  color: #ccc; /* Neutral color for validation messages before input is clicked */
+}
+
+.valid {
+  color: green;
+}
+
+.invalid {
+  color: red;
+}
+
+.error {
+  color: red;
+}
+
+.validate {
+  display: flex;
+  align-items: center;
+}
+
+.validate img {
+  margin-right: 5px;
 }

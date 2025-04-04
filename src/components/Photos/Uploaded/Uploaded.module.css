@@ -27,4 +27,8 @@
   left: 430px;
 }
 .avatar {
+  width: 88px;
+  height: 88px;
+  border-radius: 100px;
+  object-fit: contain;
 }

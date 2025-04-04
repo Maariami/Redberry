@@ -1,22 +1,26 @@
 import React from "react";
 import styles from "./Uploaded.module.css";
 
-type Props = {};
+type Props = {
+  imageSrc: string | null; // The uploaded image URL
+  onDelete: () => void; // Callback to handle delete action
+};
 
-const Uploaded = (props: Props) => {
+const Uploaded = ({ imageSrc, onDelete }: Props) => {
   return (
     <>
       <p className={styles.title}>ავატარი*</p>
       <div className={styles.block}>
-        <img
-          className={styles.avatar}
-          src="/images/Frame 1000005909.png"
-          alt=""
-        />
+        {imageSrc ? (
+          <img className={styles.avatar} src={imageSrc} alt="Avatar" />
+        ) : (
+          <p>No avatar uploaded</p>
+        )}
         <img
           className={styles.trash}
           src="/images/Frame 1000006036.png"
-          alt=""
+          alt="Delete"
+          onClick={onDelete} // Trigger delete when clicked
         />
       </div>
     </>

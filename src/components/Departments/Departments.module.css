@@ -58,3 +58,8 @@
 .newDiv {
   border-color: rgba(131, 56, 236, 1);
 }
+.small,
+.small .box,
+.small .newDiv {
+  width: 384px;
+}

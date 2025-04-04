@@ -1,19 +1,12 @@
 .button {
-  text-align: center;
   width: 225;
   height: 39;
   border-radius: 5px;
-  align-content: center;
   border: 1px solid rgba(131, 56, 236, 1);
-  color: rgba(33, 37, 41, 1);
+  background-color: white;
   font-family: FiraGO;
   font-weight: 400;
   font-size: 16px;
   line-height: 100%;
   letter-spacing: 0%;
-}
-.button:hover {
-  border-color: rgba(181, 136, 244, 1);
-  animation-timing-function: ease-out;
-  animation-duration: 300ms;
 }
