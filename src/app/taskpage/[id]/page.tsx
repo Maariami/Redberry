@@ -9,7 +9,6 @@ import Header from "@/components/Header/Header";
 import Status from "@/components/Statuses/Statuses";
 import AddWorker from "@/components/AddWorker/AddWorker";
 import Button3 from "@/components/Buttons/Button3/Button3";
-import Statement from "@/components/Comments/Statement/Statement"; // Assuming this is for displaying comments
 import Reply from "@/components/Comments/Reply/Reply"; // Assuming this is for displaying replies
 
 const API_TOKEN = "9e8fae87-b024-4cd6-ad8f-dffb3840af32"; // API token
@@ -93,13 +92,36 @@ const TaskPage = () => {
 
       if (!response.ok) throw new Error("Failed to post comment");
 
-      // Add the new comment to the list without reloading the page
       const newCommentData = await response.json();
-      setComments((prevComments) => [newCommentData, ...prevComments]);
+
+      // Prevent duplicate by checking if comment already exists in state
+      setComments((prevComments) => {
+        if (!prevComments.some((comment) => comment.id === newCommentData.id)) {
+          return [newCommentData, ...prevComments];
+        }
+        return prevComments;
+      });
+
       setNewComment(""); // Clear the textarea after submission
     } catch (error) {
       console.error("Error posting comment:", error);
     }
+  };
+
+  // Calculate the total number of comments and sub-comments
+  const totalCommentsAndSubComments = comments.reduce((acc, comment) => {
+    const subCommentsCount = comment.sub_comments
+      ? comment.sub_comments.length
+      : 0;
+    return acc + 1 + subCommentsCount; // 1 for the comment itself and sub-comments count
+  }, 0);
+
+  // Handle status update in the parent (TaskPage)
+  const handleStatusChange = (newStatus: string) => {
+    setTask((prevTask) => ({
+      ...prevTask,
+      status: { ...prevTask.status, name: newStatus }, // Update status in task state
+    }));
   };
 
   if (loading) return <p>Loading...</p>;
@@ -125,7 +147,11 @@ const TaskPage = () => {
                 სტატუსი
               </div>
               <div className={styles.rights}>
-                <Status defaultStatus={task.status.name}></Status>
+                <Status
+                  defaultStatus={task.status.name}
+                  taskId={id}
+                  onStatusChange={handleStatusChange}
+                />
               </div>
             </div>
 
@@ -172,19 +198,12 @@ const TaskPage = () => {
           </div>
           <div className={styles.commenthead}>
             <p>კომენტარები</p>
-            <p className={styles.number}>{comments.length} </p>
+            <p className={styles.number}>{totalCommentsAndSubComments}</p>
           </div>
           <div className={styles.actualcommet}>
             {comments.map((comment) => (
               <div key={comment.id} className={styles.actualcommet}>
                 <Reply comment={comment} />
-                {comment.sub_comments && comment.sub_comments.length > 0 && (
-                  <div className={styles.replytocomment}>
-                    {comment.sub_comments.map((subComment) => (
-                      <Statement key={subComment.id} comment={subComment} />
-                    ))}
-                  </div>
-                )}
               </div>
             ))}
           </div>

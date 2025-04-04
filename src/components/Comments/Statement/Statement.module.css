@@ -4,6 +4,7 @@
   gap: 12px;
   font-family: FiraGO;
   width: 598px;
+  margin-top: 20px;
 }
 .info {
   height: 100%;
@@ -24,4 +25,5 @@
 .image {
   width: 38;
   height: 38;
+  border-radius: 100;
 }

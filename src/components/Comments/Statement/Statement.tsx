@@ -1,16 +1,7 @@
 import React from "react";
 import styles from "./Statement.module.css";
 
-// Define the shape of the props expected by the component
-type Props = {
-  comment: {
-    author_nickname: string;
-    author_avatar: string;
-    text: string;
-  };
-};
-
-const Statement = ({ comment }: Props) => {
+const Statement = ({ comment }) => {
   return (
     <div className={styles.comment}>
       <img
@@ -19,8 +10,8 @@ const Statement = ({ comment }: Props) => {
         alt={comment.author_nickname}
       />
       <div className={styles.info}>
-        <h2>{comment.author_nickname}</h2>
-        <p>{comment.text}</p>
+        <h2 className={styles.userName}>{comment.author_nickname}</h2>
+        <p className={styles.commentText}>{comment.text}</p>
       </div>
     </div>
   );

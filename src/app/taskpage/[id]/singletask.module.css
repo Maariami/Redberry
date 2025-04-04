@@ -83,6 +83,7 @@
 }
 
 .addcomment {
+  resize: none;
   border: none;
   outline: none;
   color: black;
@@ -133,5 +134,5 @@
 }
 .replytocomment {
   margin-left: 42px;
-  margin-top: 20px;
+  margin-top: 50px;
 }

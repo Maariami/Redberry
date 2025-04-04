@@ -8,13 +8,17 @@ type StatusItem = {
 };
 
 type Props = {
-  defaultStatus: string; // Receive the API status as a prop
+  defaultStatus: string; // API-provided status
+  taskId: string; // ID needed for PATCH
+  onStatusChange?: (newStatus: string) => void; // Optional callback
 };
 
-const Status = ({ defaultStatus }: Props) => {
+const API_TOKEN = "9e8fae87-b024-4cd6-ad8f-dffb3840af32";
+
+const Status = ({ defaultStatus, taskId, onStatusChange }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [statuses, setStatuses] = useState<StatusItem[]>([]);
-  const [selectedStatus, setSelectedStatus] = useState<string>(defaultStatus); // Use API status as default
+  const [selectedStatus, setSelectedStatus] = useState<string>(defaultStatus);
 
   useEffect(() => {
     const fetchStatuses = async () => {
@@ -28,7 +32,6 @@ const Status = ({ defaultStatus }: Props) => {
         const data = await response.json();
         setStatuses(data);
 
-        // If defaultStatus isn't found in the API, fallback to the first item
         if (
           !data.some((status) => status.name === defaultStatus) &&
           data.length > 0
@@ -40,15 +43,50 @@ const Status = ({ defaultStatus }: Props) => {
       }
     };
     fetchStatuses();
-  }, [defaultStatus]); // Run when the API status changes
+  }, [defaultStatus]);
 
   const handleClick = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleSelect = (statusName: string) => {
+  const handleSelect = async (statusName: string) => {
     setSelectedStatus(statusName);
     setIsOpen(false);
+
+    try {
+      const statusId = statuses.find((s) => s.name === statusName)?.id;
+      console.log("Selected Status:", statusName);
+      console.log("Resolved Status ID:", statusId);
+      console.log("Updating task:", taskId);
+
+      if (!statusId) throw new Error("Status ID not found");
+
+      const res = await fetch(
+        `https://momentum.redberryinternship.ge/api/tasks/${taskId}`,
+        {
+          method: "PUT", // Try PUT instead of PATCH
+          headers: {
+            Authorization: `Bearer ${API_TOKEN}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ status_id: statusId }),
+        }
+      );
+
+      if (!res.ok) {
+        const errorText = await res.text();
+        console.error("API Error Response:", errorText);
+        throw new Error("Failed to update status");
+      }
+
+      console.log("Status updated successfully");
+
+      if (onStatusChange) {
+        onStatusChange(statusName);
+      }
+    } catch (error) {
+      console.error("Error updating status:", error);
+    }
   };
 
   return (
