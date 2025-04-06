@@ -2,10 +2,15 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Departments.module.css";
 
+type Department = {
+  id: number;
+  name: string;
+};
+
 type DepartmentsProps = {
-  className?: string; // Optional className prop
-  selectedDepartment: string | null; // Prop to get the selected department from the parent
-  onSelectDepartment: (departmentName: string) => void; // Callback to pass selected department back to the parent
+  className?: string;
+  selectedDepartment: string | null;
+  onSelectDepartment: (departmentName: string) => void;
 };
 
 const Departments = ({
@@ -14,7 +19,7 @@ const Departments = ({
   onSelectDepartment,
 }: DepartmentsProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [departments, setDepartments] = useState<any[]>([]);
+  const [departments, setDepartments] = useState<Department[]>([]);
 
   useEffect(() => {
     async function fetchData() {
@@ -53,24 +58,24 @@ const Departments = ({
         <input
           placeholder="დეპარტამენტი"
           type="text"
-          value={selectedDepartment || ""} // Display selected department
+          value={selectedDepartment || ""}
           readOnly
         />
         <img
           className={`${isOpen ? styles.rotated : ""}`}
           src="/images/down.png"
-          alt=""
+          alt="Toggle"
         />
       </div>
 
       {isOpen && (
         <div className={styles.newDiv}>
           {departments.length > 0 ? (
-            departments.map((department, idx) => (
+            departments.map((department) => (
               <p
-                key={idx}
+                key={department.id}
                 className={styles.dropdownItem}
-                onClick={() => handleDepartmentClick(department.name)} // Call the handler with the department name
+                onClick={() => handleDepartmentClick(department.name)}
               >
                 {department.name}
               </p>

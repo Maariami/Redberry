@@ -32,7 +32,7 @@ type StatusItem = {
 type Props = {};
 
 const Page = (props: Props) => {
-  const [selectedDepartment, setSelectedDepartment] = useState<any | null>(
+  const [selectedDepartment, setSelectedDepartment] = useState<string | null>(
     null
   );
   const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(
@@ -43,11 +43,11 @@ const Page = (props: Props) => {
   );
   const [selectedStatus, setSelectedStatus] = useState<StatusItem | null>(null);
   const [taskDescription, setTaskDescription] = useState<string>("");
-  const [taskDate, setTaskDate] = useState<string>("");
+  const [taskDate, setTaskDate] = useState<Date | null>(null);
   const [taskTitle, setTaskTitle] = useState<string>("");
 
-  const handleSelectDepartment = (department: { id: number; name: string }) => {
-    setSelectedDepartment(department);
+  const handleSelectDepartment = (departmentName: string) => {
+    setSelectedDepartment(departmentName);
   };
 
   const handleSelectEmployee = (employee: Employee) => {
@@ -66,7 +66,7 @@ const Page = (props: Props) => {
     setTaskDescription(description);
   };
 
-  const handleDateChange = (date: string) => {
+  const handleDateChange = (date: Date | null) => {
     setTaskDate(date);
   };
 
@@ -89,9 +89,7 @@ const Page = (props: Props) => {
             icon: selectedPriority.icon,
           }
         : null,
-      department: selectedDepartment
-        ? { id: selectedDepartment.id, name: selectedDepartment.name }
-        : null,
+      department: selectedDepartment,
       employee: selectedEmployee
         ? {
             id: selectedEmployee.id,
@@ -148,6 +146,7 @@ const Page = (props: Props) => {
             <Description
               length="long"
               text="აღწერა"
+              value={taskDescription}
               onChange={handleDescriptionChange}
             />
           </div>
@@ -158,13 +157,19 @@ const Page = (props: Props) => {
         </div>
         <div className={styles.right}>
           <div className={styles.department}>
-            <Departments onSelectDepartment={handleSelectDepartment} />
+            <Departments
+              selectedDepartment={selectedDepartment}
+              onSelectDepartment={handleSelectDepartment}
+            />
           </div>
           <div className={styles.employee}>
-            <EmployeesDropdown onSelectEmployee={handleSelectEmployee} />
+            <EmployeesDropdown
+              selectedEmployee={selectedEmployee}
+              onSelectEmployee={handleSelectEmployee}
+            />
           </div>
           <div className={styles.date}>
-            <DatePicker onChange={handleDateChange} />
+            <DatePicker onChange={handleDateChange} value={taskDate} />
           </div>
           <button className={styles.create} onClick={handleCreateTask}>
             დავალების შექმნა

@@ -1,10 +1,13 @@
+"use client";
 import React, { useState, useEffect } from "react";
 import styles from "./Employees.module.css";
 
 type Employee = {
+  id: number;
   name: string;
   surname: string;
   avatar: string | null;
+  department_id: number;
 };
 
 type EmployeesDropdownProps = {
@@ -60,7 +63,6 @@ const EmployeesDropdown = ({
         className={`${styles.box} ${isOpen ? styles.clicked : ""}`}
         onClick={handleClick}
       >
-        {/* Display selected employee's image and name */}
         <div className={styles.selectedEmployee}>
           {selectedEmployee ? (
             <>
@@ -87,13 +89,12 @@ const EmployeesDropdown = ({
       {isOpen && (
         <div className={styles.newDiv}>
           {employees.length > 0 ? (
-            employees.map((employee, idx) => (
+            employees.map((employee) => (
               <div
-                key={idx}
+                key={employee.id}
                 className={styles.dropdownItem}
                 onClick={() => handleEmployeeClick(employee)}
               >
-                {/* Display employee's avatar and name in the dropdown */}
                 <img
                   className={styles.avatar}
                   src={employee.avatar || "/images/default-avatar.png"}
