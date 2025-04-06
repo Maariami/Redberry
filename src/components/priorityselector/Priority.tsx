@@ -8,11 +8,16 @@ type PriorityItem = {
   icon: string;
 };
 
-type Props = {};
+type Props = {
+  onSelectPriority: (priority: PriorityItem) => void;
+};
 
-const Priority = (props: Props) => {
+const Priority = ({ onSelectPriority }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [priorities, setPriorities] = useState<PriorityItem[]>([]);
+  const [selectedPriority, setSelectedPriority] = useState<PriorityItem | null>(
+    null
+  );
 
   useEffect(() => {
     const fetchPriorities = async () => {
@@ -36,6 +41,12 @@ const Priority = (props: Props) => {
     setIsOpen(!isOpen);
   };
 
+  const handleSelect = (priority: PriorityItem) => {
+    setSelectedPriority(priority);
+    setIsOpen(false);
+    onSelectPriority(priority); // Pass the selected priority to parent component
+  };
+
   return (
     <div className={styles.container}>
       <p
@@ -48,7 +59,20 @@ const Priority = (props: Props) => {
         className={`${styles.box} ${isOpen ? styles.clicked : ""}`}
         onClick={handleClick}
       >
-        <p>პრიორიტეტები</p>
+        <div className={styles.selectedPriority}>
+          {selectedPriority ? (
+            <>
+              <img
+                src={selectedPriority.icon}
+                alt={selectedPriority.name}
+                className={styles.selectedPriorityIcon}
+              />
+              <p>{selectedPriority.name}</p>
+            </>
+          ) : (
+            <p>პრიორიტეტები</p>
+          )}
+        </div>
         <img
           className={`${styles.img} ${isOpen ? styles.active : ""}`}
           src="/images/down.png"
@@ -59,7 +83,11 @@ const Priority = (props: Props) => {
       {isOpen && (
         <div className={styles.newDiv}>
           {priorities.map((priority) => (
-            <div key={priority.id} className={styles.priorityItem}>
+            <div
+              key={priority.id}
+              className={styles.priorityItem}
+              onClick={() => handleSelect(priority)}
+            >
               <img
                 src={priority.icon}
                 alt={priority.name}

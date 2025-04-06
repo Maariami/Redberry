@@ -17,6 +17,7 @@
   display: flex;
   align-items: center;
   border: 1px solid rgba(206, 212, 218, 1);
+  background-color: white;
 }
 .box input {
   height: 100%;

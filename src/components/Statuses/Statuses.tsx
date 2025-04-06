@@ -8,17 +8,13 @@ type StatusItem = {
 };
 
 type Props = {
-  defaultStatus: string; // API-provided status
-  taskId: string; // ID needed for PATCH
-  onStatusChange?: (newStatus: string) => void; // Optional callback
+  onSelectStatus: (status: StatusItem) => void;
 };
 
-const API_TOKEN = "9e8fae87-b024-4cd6-ad8f-dffb3840af32";
-
-const Status = ({ defaultStatus, taskId, onStatusChange }: Props) => {
+const Status = ({ onSelectStatus }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [statuses, setStatuses] = useState<StatusItem[]>([]);
-  const [selectedStatus, setSelectedStatus] = useState<string>(defaultStatus);
+  const [selectedStatus, setSelectedStatus] = useState<StatusItem | null>(null);
 
   useEffect(() => {
     const fetchStatuses = async () => {
@@ -31,62 +27,21 @@ const Status = ({ defaultStatus, taskId, onStatusChange }: Props) => {
         }
         const data = await response.json();
         setStatuses(data);
-
-        if (
-          !data.some((status) => status.name === defaultStatus) &&
-          data.length > 0
-        ) {
-          setSelectedStatus(data[0].name);
-        }
       } catch (error) {
         console.error("Error fetching statuses:", error);
       }
     };
     fetchStatuses();
-  }, [defaultStatus]);
+  }, []);
 
   const handleClick = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleSelect = async (statusName: string) => {
-    setSelectedStatus(statusName);
+  const handleSelect = (status: StatusItem) => {
+    setSelectedStatus(status);
     setIsOpen(false);
-
-    try {
-      const statusId = statuses.find((s) => s.name === statusName)?.id;
-      console.log("Selected Status:", statusName);
-      console.log("Resolved Status ID:", statusId);
-      console.log("Updating task:", taskId);
-
-      if (!statusId) throw new Error("Status ID not found");
-
-      const res = await fetch(
-        `https://momentum.redberryinternship.ge/api/tasks/${taskId}`,
-        {
-          method: "PUT", // Try PUT instead of PATCH
-          headers: {
-            Authorization: `Bearer ${API_TOKEN}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ status_id: statusId }),
-        }
-      );
-
-      if (!res.ok) {
-        const errorText = await res.text();
-        console.error("API Error Response:", errorText);
-        throw new Error("Failed to update status");
-      }
-
-      console.log("Status updated successfully");
-
-      if (onStatusChange) {
-        onStatusChange(statusName);
-      }
-    } catch (error) {
-      console.error("Error updating status:", error);
-    }
+    onSelectStatus(status); // Pass the selected status to parent component
   };
 
   return (
@@ -101,7 +56,9 @@ const Status = ({ defaultStatus, taskId, onStatusChange }: Props) => {
         className={`${styles.box} ${isOpen ? styles.clicked : ""}`}
         onClick={handleClick}
       >
-        <p>{selectedStatus}</p>
+        <div className={styles.selectedStatus}>
+          {selectedStatus ? <p>{selectedStatus.name}</p> : <p>სტატუსები</p>}
+        </div>
         <img
           className={`${styles.img} ${isOpen ? styles.active : ""}`}
           src="/images/down.png"
@@ -115,7 +72,7 @@ const Status = ({ defaultStatus, taskId, onStatusChange }: Props) => {
             <div
               key={status.id}
               className={styles.statusItem}
-              onClick={() => handleSelect(status.name)}
+              onClick={() => handleSelect(status)}
             >
               <p>{status.name}</p>
             </div>

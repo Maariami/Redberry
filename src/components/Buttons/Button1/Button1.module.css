@@ -9,4 +9,98 @@
   font-size: 16px;
   line-height: 100%;
   letter-spacing: 0%;
+  color: black;
+}
+
+.page {
+  backdrop-filter: blur(10px);
+
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.emplo {
+  background-color: white;
+  width: 913;
+  min-height: 766;
+  top: 118px;
+  left: 503px;
+  border-radius: 10px;
+  gap: 37px;
+  padding-top: 40px;
+  padding-right: 50px;
+  padding-bottom: 60px;
+  padding-left: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+.close {
+  align-self: self-end;
+}
+
+.valids {
+  display: flex;
+  gap: 45px;
+}
+.valids div {
+  width: 384px;
+}
+.emplo h2 {
+  align-self: center;
+  color: black;
+  font-family: FiraGO;
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  text-align: center;
+}
+.dep {
+  width: 384px;
+}
+
+.buttons {
+  align-self: flex-end;
+  display: flex;
+  gap: 22px;
+}
+.cancel {
+  width: 102;
+  height: 42;
+  border-radius: 5px;
+  border: 1px solid rgba(131, 56, 236, 1);
+  gap: 2px;
+  padding-top: 10px;
+  padding-right: 16px;
+  padding-bottom: 10px;
+  padding-left: 16px;
+  color: black;
+  background-color: white;
+  font-family: FiraGO;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  text-align: center;
+}
+.add {
+  color: white;
+  border: 1px solid rgba(131, 56, 236, 1);
+  width: 263;
+  height: 42;
+  border-radius: 5px;
+  gap: 4px;
+
+  background-color: rgba(131, 56, 236, 1);
+  font-family: FiraGO;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 100%;
+  letter-spacing: 0%;
 }

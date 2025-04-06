@@ -8,7 +8,7 @@
 }
 .box {
   background-color: white;
-  width: 100%;
+  width: 550;
   height: 45;
   border-radius: 5px;
   margin-top: 6px;
@@ -41,7 +41,10 @@
   border-bottom-left-radius: 5px;
   background-color: white;
 }
-.dropdownItem {
+.dropdownItem,
+.selectedEmployee {
+  display: flex;
+  align-items: center;
   width: 550;
   height: 46;
   gap: 6px;
@@ -50,8 +53,14 @@
   padding-bottom: 12px;
   padding-left: 14px;
   color: black;
+  font-family: FiraGO;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 100%;
+  letter-spacing: 0%;
 }
 .clicked {
+  display: flex;
   border-bottom: none;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
@@ -64,4 +73,12 @@
 .small .box,
 .small .newDiv {
   width: 384px;
+}
+.avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 100;
+}
+.selectedEmployee {
+  padding: 0;
 }
