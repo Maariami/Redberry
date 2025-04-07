@@ -9,8 +9,8 @@ type Department = {
 
 type DepartmentsProps = {
   className?: string;
-  selectedDepartment: string | null;
-  onSelectDepartment: (departmentName: string) => void;
+  selectedDepartment: string | null; // This will hold the department ID
+  onSelectDepartment: (departmentId: string) => void;
 };
 
 const Departments = ({
@@ -20,6 +20,8 @@ const Departments = ({
 }: DepartmentsProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [departments, setDepartments] = useState<Department[]>([]);
+  const [selectedDepartmentName, setSelectedDepartmentName] =
+    useState<string>("");
 
   useEffect(() => {
     async function fetchData() {
@@ -43,13 +45,26 @@ const Departments = ({
     setIsOpen(!isOpen);
   };
 
-  const handleDepartmentClick = (departmentName: string) => {
-    onSelectDepartment(departmentName); // Update the parent with selected department
-    setIsOpen(false); // Close the dropdown after selecting a department
+  const handleDepartmentClick = (department: Department) => {
+    onSelectDepartment(department.id.toString());
+    setSelectedDepartmentName(department.name);
+    setIsOpen(false);
   };
 
+  // Update the display name when the selected ID changes
+  useEffect(() => {
+    if (selectedDepartment && departments.length > 0) {
+      const selected = departments.find(
+        (dep) => dep.id.toString() === selectedDepartment
+      );
+      if (selected) {
+        setSelectedDepartmentName(selected.name);
+      }
+    }
+  }, [selectedDepartment, departments]);
+
   return (
-    <div className={styles[className]}>
+    <div className={styles[className || ""]}>
       <p className={styles.title}>დეპარტამენტი*</p>
       <div
         className={`${styles.box} ${isOpen ? styles.clicked : ""}`}
@@ -58,7 +73,7 @@ const Departments = ({
         <input
           placeholder="დეპარტამენტი"
           type="text"
-          value={selectedDepartment || ""}
+          value={selectedDepartmentName}
           readOnly
         />
         <img
@@ -75,7 +90,7 @@ const Departments = ({
               <p
                 key={department.id}
                 className={styles.dropdownItem}
-                onClick={() => handleDepartmentClick(department.name)}
+                onClick={() => handleDepartmentClick(department)}
               >
                 {department.name}
               </p>

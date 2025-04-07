@@ -16,7 +16,9 @@
   line-height: 100%;
   letter-spacing: 0%;
   color: rgba(255, 255, 255, 1);
+  gap: 4px;
 }
+
 .button:hover {
   background-color: rgba(181, 136, 244, 1);
   animation-timing-function: ease-out;

@@ -88,3 +88,6 @@
 .bottom p {
   color: rgba(13, 15, 16, 1);
 }
+.bottom img {
+  border-radius: 100;
+}

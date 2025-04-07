@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/api/:path*",
-        destination: "http://localhost:3001/api/:path*", // Make sure this matches your backend API routes
+        destination: "https://momentum.redberryinternship.ge/api/:path*", // Make sure this matches your backend API routes
       },
     ];
   },

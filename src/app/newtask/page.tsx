@@ -46,86 +46,59 @@ const Page = (props: Props) => {
   const [taskDate, setTaskDate] = useState<Date | null>(null);
   const [taskTitle, setTaskTitle] = useState<string>("");
 
-  const handleSelectDepartment = (departmentName: string) => {
+  const handleSelectDepartment = (departmentName: string) =>
     setSelectedDepartment(departmentName);
-  };
-
-  const handleSelectEmployee = (employee: Employee) => {
+  const handleSelectEmployee = (employee: Employee) =>
     setSelectedEmployee(employee);
-  };
-
-  const handleSelectPriority = (priority: PriorityItem) => {
+  const handleSelectPriority = (priority: PriorityItem) =>
     setSelectedPriority(priority);
-  };
-
-  const handleSelectStatus = (status: StatusItem) => {
-    setSelectedStatus(status);
-  };
-
-  const handleDescriptionChange = (description: string) => {
+  const handleSelectStatus = (status: StatusItem) => setSelectedStatus(status);
+  const handleDescriptionChange = (description: string) =>
     setTaskDescription(description);
-  };
-
-  const handleDateChange = (date: Date | null) => {
-    setTaskDate(date);
-  };
-
-  const handleTitleChange = (title: string) => {
-    setTaskTitle(title);
-  };
+  const handleDateChange = (date: Date | null) => setTaskDate(date);
+  const handleTitleChange = (title: string) => setTaskTitle(title);
 
   const handleCreateTask = async () => {
     const taskData = {
       name: taskTitle,
       description: taskDescription,
-      due_date: taskDate,
-      status: selectedStatus
-        ? { id: selectedStatus.id, name: selectedStatus.name }
-        : null,
-      priority: selectedPriority
-        ? {
-            id: selectedPriority.id,
-            name: selectedPriority.name,
-            icon: selectedPriority.icon,
-          }
-        : null,
-      department: selectedDepartment,
-      employee: selectedEmployee
-        ? {
-            id: selectedEmployee.id,
-            name: selectedEmployee.name,
-            surname: selectedEmployee.surname,
-            avatar: selectedEmployee.avatar,
-            department_id: selectedEmployee.department_id,
-          }
-        : null,
+      due_date: taskDate?.toISOString() || "", // Use ISO format for date
+      status_id: selectedStatus ? selectedStatus.id : 1, // Default to 1 if no status selected
+      priority_id: selectedPriority ? selectedPriority.id : 1, // Default to 1 if no priority selected
+      employee_id: selectedEmployee ? selectedEmployee.id : 1, // Default to employee with id 1 if no employee selected
     };
 
-    console.log("Task Data:", taskData);
+    console.log("Task data being sent:", taskData);
 
     const token = "9e8fae87-b024-4cd6-ad8f-dffb3840af32";
 
     try {
-      const response = await fetch(
-        "https://momentum.redberryinternship.ge/api/tasks",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(taskData),
-        }
-      );
+      const response = await fetch("/api/tasks", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(taskData),
+      });
 
       if (!response.ok) {
-        throw new Error("Failed to create task");
+        const errorText = await response.text();
+        throw new Error(`Failed to create task: ${errorText}`);
       }
 
-      const result = await response.json();
-      console.log("Task created successfully:", result);
-    } catch (error) {
-      console.error("Error creating task:", error);
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        const result = await response.json();
+        console.log("✅ Task created successfully:", result);
+        alert("Task created successfully!");
+      } else {
+        const text = await response.text();
+        throw new Error(`Unexpected response format: ${text}`);
+      }
+    } catch (error: any) {
+      console.error("❌ Error creating task:", error);
+      alert("Error: " + error.message);
     }
   };
 
