@@ -1,16 +1,16 @@
 "use client";
-import React, { useState } from "react";
+
+import React, { startTransition, useState } from "react";
+import { Formik, Form } from "formik"; // Import Formik and Form
 import styles from "./Button1.module.css";
 import Departments from "@/components/Departments/Departments";
 import Upload from "@/components/Photos/Upload/Upload";
 import Uploaded from "@/components/Photos/Uploaded/Uploaded";
-import Namevalidation from "@/components/Namevalidation/Namevalidation";
+import Namevalidation from "@/components/Namevalidation/Namevalidation"; // Import Namevalidation component
 
 const Button1 = () => {
   const [showNewDiv, setShowNewDiv] = useState(false);
   const [imageSrc, setImageSrc] = useState<string | null>(null);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
   const [selectedDepartmentId, setSelectedDepartmentId] = useState<
     string | null
   >(null);
@@ -38,17 +38,9 @@ const Button1 = () => {
     console.log("Department selected (ID):", departmentId);
   };
 
-  const handleFirstNameChange = (value: string) => {
-    setFirstName(value);
-    console.log("First Name changed:", value);
-  };
+  const handleSubmit = async (values: any) => {
+    const { firstName, lastName } = values;
 
-  const handleLastNameChange = (value: string) => {
-    setLastName(value);
-    console.log("Last Name changed:", value);
-  };
-
-  const handleSubmit = async () => {
     console.log("First Name:", firstName);
     console.log("Last Name:", lastName);
     console.log("Selected Department ID:", selectedDepartmentId);
@@ -81,10 +73,6 @@ const Button1 = () => {
       if (response.ok) {
         alert("თანამშრომელი დაემატა წარმატებით!");
         setShowNewDiv(false);
-        setFirstName("");
-        setLastName("");
-        setImageSrc(null);
-        setSelectedDepartmentId(null);
       } else {
         const responseText = await response.text();
         alert(`დაფიქსირდა შეცდომა: ${responseText}`);
@@ -111,53 +99,53 @@ const Button1 = () => {
             />
             <h2>თანამშროლმის დამატება</h2>
 
-            <div className={styles.valids}>
-              <div>
-                <Namevalidation
-                  text="სახელი"
-                  value={firstName}
-                  onChange={handleFirstNameChange}
-                />
-              </div>
-              <div>
-                <Namevalidation
-                  text="გვარი"
-                  value={lastName}
-                  onChange={handleLastNameChange}
-                />
-              </div>
-            </div>
+            {/* Formik Wrapping the Form */}
+            <Formik
+              initialValues={{
+                firstName: "",
+                lastName: "",
+              }}
+              onSubmit={handleSubmit}
+            >
+              <Form className={styles.form}>
+                <div className={styles.valids}>
+                  {/* Use Namevalidation with Formik's name attribute */}
+                  <div>
+                    <Namevalidation text="სახელი" name="firstName" />
+                  </div>
+                  <div>
+                    <Namevalidation text="გვარი" name="lastName" />
+                  </div>
+                </div>
 
-            {imageSrc ? (
-              <Uploaded imageSrc={imageSrc} onDelete={handleDeleteImage} />
-            ) : (
-              <Upload onUpload={handleImageUpload} />
-            )}
+                {imageSrc ? (
+                  <Uploaded imageSrc={imageSrc} onDelete={handleDeleteImage} />
+                ) : (
+                  <Upload onUpload={handleImageUpload} />
+                )}
 
-            <div className={styles.dep}>
-              <Departments
-                className={styles.dep}
-                selectedDepartment={selectedDepartmentId}
-                onSelectDepartment={handleDepartmentSelect}
-              />
-            </div>
+                <div className={styles.dep}>
+                  <Departments
+                    className="dep"
+                    selectedDepartment={selectedDepartmentId}
+                    onSelectDepartment={handleDepartmentSelect}
+                  />
+                </div>
 
-            <div className={styles.buttons}>
-              <button
-                type="button"
-                className={styles.cancel}
-                onClick={closePopup}
-              >
-                გაუქმება
-              </button>
-              <button
-                type="button"
-                className={styles.add}
-                onClick={handleSubmit}
-              >
-                დაამატე თანამშრომელი
-              </button>
-            </div>
+                <div className={styles.buttons}>
+                  <button
+                    type="button"
+                    className={styles.cancel}
+                    onClick={closePopup}
+                  >
+                    გაუქმება
+                  </button>
+                  <button type="submit" className={styles.add}>
+                    დაამატე თანამშრომელი
+                  </button>
+                </div>
+              </Form>
+            </Formik>
           </div>
         </div>
       )}

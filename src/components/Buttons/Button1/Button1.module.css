@@ -14,7 +14,7 @@
 
 .page {
   backdrop-filter: blur(10px);
-
+  z-index: 20;
   width: 100%;
   height: 100%;
   position: fixed;
@@ -23,6 +23,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: rgba(13, 15, 16, 0.15);
 }
 .emplo {
   background-color: white;
@@ -47,6 +48,7 @@
 .valids {
   display: flex;
   gap: 45px;
+  margin-bottom: 45px;
 }
 .valids div {
   width: 384px;
@@ -63,12 +65,14 @@
 }
 .dep {
   width: 384px;
+  margin-top: 45;
 }
 
 .buttons {
-  align-self: flex-end;
   display: flex;
   gap: 22px;
+  margin-left: 426px;
+  margin-top: 25;
 }
 .cancel {
   width: 102;

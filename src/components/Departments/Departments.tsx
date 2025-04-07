@@ -26,9 +26,7 @@ const Departments = ({
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch(
-          "https://momentum.redberryinternship.ge/api/departments"
-        );
+        const response = await fetch("/api/departments");
         if (!response.ok) {
           throw new Error("Failed to fetch departments");
         }

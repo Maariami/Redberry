@@ -67,6 +67,7 @@
 .small .newDiv {
   width: 384px;
 }
-.depo {
-  z-index: 100;
+.dep .newDiv {
+  top: 800;
+  width: 384;
 }
