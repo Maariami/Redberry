@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Header from "@/components/Header/Header";
 import styles from "./page.module.css";
-import Line from "@/components/Line/Line";
+import Lines from "@/components/Lines/Lines";
 import Selects from "@/components/Selects/Selects";
 
 export default function Home() {
@@ -17,14 +17,7 @@ export default function Home() {
         <Selects setSelectedItems={setSelectedItems} />
       </div>
       <div className={styles.dash}>
-        <Line color="yellow" status="დასაწყები" selectedItems={selectedItems} />
-        <Line color="red" status="პროგრესში" selectedItems={selectedItems} />
-        <Line
-          color="pink"
-          status="მზად ტესტირებისთვის"
-          selectedItems={selectedItems}
-        />
-        <Line color="blue" status="დასრულებული" selectedItems={selectedItems} />
+        <Lines></Lines>
       </div>
     </>
   );

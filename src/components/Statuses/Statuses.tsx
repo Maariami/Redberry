@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styles from "./Statuses.module.css";
 
 type StatusItem = {
@@ -8,31 +8,13 @@ type StatusItem = {
 };
 
 type Props = {
+  statuses: StatusItem[]; // Receive statuses as a prop
   onSelectStatus: (status: StatusItem) => void;
 };
 
-const Status = ({ onSelectStatus }: Props) => {
+const Status = ({ statuses, onSelectStatus }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [statuses, setStatuses] = useState<StatusItem[]>([]);
   const [selectedStatus, setSelectedStatus] = useState<StatusItem | null>(null);
-
-  useEffect(() => {
-    const fetchStatuses = async () => {
-      try {
-        const response = await fetch(
-          "https://momentum.redberryinternship.ge/api/statuses"
-        );
-        if (!response.ok) {
-          throw new Error("Failed to fetch statuses");
-        }
-        const data = await response.json();
-        setStatuses(data);
-      } catch (error) {
-        console.error("Error fetching statuses:", error);
-      }
-    };
-    fetchStatuses();
-  }, []);
 
   const handleClick = () => {
     setIsOpen(!isOpen);
@@ -41,7 +23,7 @@ const Status = ({ onSelectStatus }: Props) => {
   const handleSelect = (status: StatusItem) => {
     setSelectedStatus(status);
     setIsOpen(false);
-    onSelectStatus(status); // Pass the selected status to parent component
+    onSelectStatus(status); // Pass the selected status to the parent component
   };
 
   return (

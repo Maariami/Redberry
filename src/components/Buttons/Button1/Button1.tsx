@@ -1,9 +1,9 @@
 "use client";
 
-import React, { startTransition, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Formik, Form } from "formik"; // Import Formik and Form
 import styles from "./Button1.module.css";
-import Departments from "@/components/Departments/Departments";
+import Departments from "@/components/Departments/Departments"; // Import Departments
 import Upload from "@/components/Photos/Upload/Upload";
 import Uploaded from "@/components/Photos/Uploaded/Uploaded";
 import Namevalidation from "@/components/Namevalidation/Namevalidation"; // Import Namevalidation component
@@ -14,6 +14,25 @@ const Button1 = () => {
   const [selectedDepartmentId, setSelectedDepartmentId] = useState<
     string | null
   >(null);
+  const [departments, setDepartments] = useState<any[]>([]); // State for departments
+
+  // Fetch departments only once when Button1 is mounted
+  useEffect(() => {
+    const fetchDepartments = async () => {
+      try {
+        const response = await fetch("/api/departments");
+        if (!response.ok) {
+          throw new Error("Failed to fetch departments");
+        }
+        const data = await response.json();
+        setDepartments(data); // Store fetched departments
+      } catch (error) {
+        console.error("Error fetching departments:", error);
+      }
+    };
+
+    fetchDepartments(); // Call fetch once when the component is mounted
+  }, []); // Empty dependency array to make sure it runs only once on mount
 
   const handleButtonClick = () => {
     setShowNewDiv(!showNewDiv);
@@ -47,7 +66,7 @@ const Button1 = () => {
     console.log("Image Source:", imageSrc);
 
     if (!firstName || !lastName || !selectedDepartmentId || !imageSrc) {
-      alert("გთხოვ შეავსო ყველა ველი");
+      console.log("გთხოვ შეავსო ყველა ველი");
       return;
     }
 
@@ -71,14 +90,14 @@ const Button1 = () => {
       });
 
       if (response.ok) {
-        alert("თანამშრომელი დაემატა წარმატებით!");
+        console.log("თანამშრომელი დაემატა წარმატებით!");
         setShowNewDiv(false);
       } else {
         const responseText = await response.text();
-        alert(`დაფიქსირდა შეცდომა: ${responseText}`);
+        console.log(`დაფიქსირდა შეცდომა: ${responseText}`);
       }
     } catch (error) {
-      alert("დაფიქსირდა შეცდომა: " + error.message);
+      console.log("დაფიქსირდა შეცდომა: " + error.message);
     }
   };
 
@@ -109,7 +128,7 @@ const Button1 = () => {
             >
               <Form className={styles.form}>
                 <div className={styles.valids}>
-                  {/* Use Namevalidation with Formik's name attribute */}
+                  {/* Namevalidation with Formik */}
                   <div>
                     <Namevalidation text="სახელი" name="firstName" />
                   </div>
@@ -125,10 +144,12 @@ const Button1 = () => {
                 )}
 
                 <div className={styles.dep}>
+                  {/* Departments Dropdown */}
                   <Departments
                     className="dep"
                     selectedDepartment={selectedDepartmentId}
                     onSelectDepartment={handleDepartmentSelect}
+                    departments={departments} // Passing down fetched departments as props
                   />
                 </div>
 

@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState, useEffect } from "react";
 import styles from "./Departments.module.css";
 
@@ -11,45 +12,32 @@ type DepartmentsProps = {
   className?: string;
   selectedDepartment: string | null; // This will hold the department ID
   onSelectDepartment: (departmentId: string) => void;
+  departments: Department[]; // Received from parent component as prop
 };
 
 const Departments = ({
   className,
   selectedDepartment,
   onSelectDepartment,
+  departments, // Departments received as a prop
 }: DepartmentsProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [departments, setDepartments] = useState<Department[]>([]);
   const [selectedDepartmentName, setSelectedDepartmentName] =
     useState<string>("");
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await fetch("/api/departments");
-        if (!response.ok) {
-          throw new Error("Failed to fetch departments");
-        }
-        const data = await response.json();
-        setDepartments(data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    }
-    fetchData();
-  }, []);
-
+  // Handle toggle dropdown
   const handleClick = () => {
     setIsOpen(!isOpen);
   };
 
+  // Handle department selection
   const handleDepartmentClick = (department: Department) => {
     onSelectDepartment(department.id.toString());
     setSelectedDepartmentName(department.name);
-    setIsOpen(false);
+    setIsOpen(false); // Close dropdown after selection
   };
 
-  // Update the display name when the selected ID changes
+  // Update selected department name when department ID changes
   useEffect(() => {
     if (selectedDepartment && departments.length > 0) {
       const selected = departments.find(

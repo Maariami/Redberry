@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Formik, Form } from "formik";
 import Header from "@/components/Header/Header";
 import styles from "./page.module.css";
@@ -43,12 +43,42 @@ const Page = () => {
   );
   const [selectedStatus, setSelectedStatus] = useState<StatusItem | null>(null);
   const [taskDate, setTaskDate] = useState<Date | null>(null);
+  const [statuses, setStatuses] = useState<StatusItem[]>([]); // State for storing statuses
 
   // Track which dropdown is open
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
+  // Fetch statuses on component mount
+  useEffect(() => {
+    const fetchStatuses = async () => {
+      const token = "9e8fae87-b024-4cd6-ad8f-dffb3840af32";
+
+      try {
+        const response = await fetch(
+          "https://momentum.redberryinternship.ge/api/statuses",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch statuses");
+        }
+
+        const data = await response.json();
+        setStatuses(data);
+      } catch (error) {
+        console.error("Error fetching statuses:", error);
+      }
+    };
+
+    fetchStatuses();
+  }, []); // Run only once when component mounts
+
   const handleDropdownToggle = (dropdownName: string) => {
-    // If the clicked dropdown is already open, close it. Otherwise, open it and close the others.
     setOpenDropdown((prev) => (prev === dropdownName ? null : dropdownName));
   };
 
@@ -88,14 +118,12 @@ const Page = () => {
       if (contentType?.includes("application/json")) {
         const result = await response.json();
         console.log("✅ Task created successfully:", result);
-        alert("დავალება წარმატებით შეიქმნა!");
       } else {
         const text = await response.text();
         throw new Error(`Unexpected response format: ${text}`);
       }
     } catch (error: any) {
       console.error("❌ Error creating task:", error);
-      alert("შეცდომა: " + error.message);
     }
   };
 
@@ -134,7 +162,10 @@ const Page = () => {
                     onClick={() => handleDropdownToggle("status")}
                     className={openDropdown === "status" ? styles.open : ""}
                   >
-                    <Status onSelectStatus={setSelectedStatus} />
+                    <Status
+                      statuses={statuses} // Pass fetched statuses here
+                      onSelectStatus={setSelectedStatus} // Handle selection
+                    />
                   </div>
                 </div>
               </div>
@@ -148,6 +179,7 @@ const Page = () => {
                 </div>
                 <div className={styles.employee}>
                   <EmployeesDropdown
+                    className={styles.emplo}
                     selectedEmployee={selectedEmployee}
                     onSelectEmployee={setSelectedEmployee}
                   />
