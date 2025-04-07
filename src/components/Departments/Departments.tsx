@@ -10,7 +10,7 @@ type Department = {
 
 type DepartmentsProps = {
   className?: string;
-  selectedDepartment: string | null; // This will hold the department ID
+  selectedDepartment: string | null; // This will hold the department ID as a string
   onSelectDepartment: (departmentId: string) => void;
   departments: Department[]; // Received from parent component as prop
 };
@@ -19,7 +19,7 @@ const Departments = ({
   className,
   selectedDepartment,
   onSelectDepartment,
-  departments, // Departments received as a prop
+  departments = [], // Default to empty array if departments is not passed
 }: DepartmentsProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedDepartmentName, setSelectedDepartmentName] =
@@ -45,6 +45,8 @@ const Departments = ({
       );
       if (selected) {
         setSelectedDepartmentName(selected.name);
+      } else {
+        setSelectedDepartmentName(""); // If no department is selected, reset the name
       }
     }
   }, [selectedDepartment, departments]);
@@ -59,7 +61,7 @@ const Departments = ({
         <input
           placeholder="დეპარტამენტი"
           type="text"
-          value={selectedDepartmentName}
+          value={selectedDepartmentName || ""}
           readOnly
         />
         <img
@@ -71,7 +73,7 @@ const Departments = ({
 
       {isOpen && (
         <div className={styles.newDiv}>
-          {departments.length > 0 ? (
+          {Array.isArray(departments) && departments.length > 0 ? (
             departments.map((department) => (
               <p
                 key={department.id}

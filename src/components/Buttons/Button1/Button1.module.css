@@ -11,6 +11,9 @@
   letter-spacing: 0%;
   color: black;
 }
+.button:hover {
+  border-color: rgba(181, 136, 244, 1);
+}
 
 .page {
   backdrop-filter: blur(10px);

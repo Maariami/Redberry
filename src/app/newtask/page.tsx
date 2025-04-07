@@ -31,6 +31,11 @@ type StatusItem = {
   name: string;
 };
 
+type Department = {
+  id: number;
+  name: string;
+};
+
 const Page = () => {
   const [selectedDepartment, setSelectedDepartment] = useState<string | null>(
     null
@@ -43,18 +48,20 @@ const Page = () => {
   );
   const [selectedStatus, setSelectedStatus] = useState<StatusItem | null>(null);
   const [taskDate, setTaskDate] = useState<Date | null>(null);
-  const [statuses, setStatuses] = useState<StatusItem[]>([]); // State for storing statuses
+  const [statuses, setStatuses] = useState<StatusItem[]>([]);
+  const [departments, setDepartments] = useState<Department[]>([]); // State for departments
 
-  // Track which dropdown is open
+  // Add state to track which dropdown is open
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
-  // Fetch statuses on component mount
+  // Fetch statuses and departments on component mount
   useEffect(() => {
-    const fetchStatuses = async () => {
+    const fetchStatusesAndDepartments = async () => {
       const token = "9e8fae87-b024-4cd6-ad8f-dffb3840af32";
 
       try {
-        const response = await fetch(
+        // Fetch statuses
+        const statusResponse = await fetch(
           "https://momentum.redberryinternship.ge/api/statuses",
           {
             headers: {
@@ -63,20 +70,34 @@ const Page = () => {
             },
           }
         );
-
-        if (!response.ok) {
+        if (!statusResponse.ok) {
           throw new Error("Failed to fetch statuses");
         }
+        const statusData = await statusResponse.json();
+        setStatuses(statusData);
 
-        const data = await response.json();
-        setStatuses(data);
+        // Fetch departments
+        const departmentResponse = await fetch(
+          "https://momentum.redberryinternship.ge/api/departments",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        if (!departmentResponse.ok) {
+          throw new Error("Failed to fetch departments");
+        }
+        const departmentData = await departmentResponse.json();
+        setDepartments(departmentData);
       } catch (error) {
-        console.error("Error fetching statuses:", error);
+        console.error("Error fetching data:", error);
       }
     };
 
-    fetchStatuses();
-  }, []); // Run only once when component mounts
+    fetchStatusesAndDepartments();
+  }, []);
 
   const handleDropdownToggle = (dropdownName: string) => {
     setOpenDropdown((prev) => (prev === dropdownName ? null : dropdownName));
@@ -173,13 +194,15 @@ const Page = () => {
               <div className={styles.right}>
                 <div className={styles.department}>
                   <Departments
+                    className="depo"
                     selectedDepartment={selectedDepartment}
                     onSelectDepartment={setSelectedDepartment}
+                    departments={departments} // Pass fetched departments here
                   />
                 </div>
                 <div className={styles.employee}>
                   <EmployeesDropdown
-                    className={styles.emplo}
+                    className="emplo"
                     selectedEmployee={selectedEmployee}
                     onSelectEmployee={setSelectedEmployee}
                   />

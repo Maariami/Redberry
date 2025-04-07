@@ -70,4 +70,10 @@
 .dep .newDiv {
   top: 800;
   width: 384;
+  max-height: 138px;
+  overflow-y: scroll;
+}
+.depo .newDiv {
+  max-height: 138px;
+  overflow-y: scroll;
 }

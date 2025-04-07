@@ -93,3 +93,8 @@
 .emplo {
   z-index: 10;
 }
+.emplo .newDiv {
+  max-height: 138px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}

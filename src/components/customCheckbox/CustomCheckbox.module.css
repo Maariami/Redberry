@@ -17,9 +17,6 @@
   transition: all 0.2s ease-in-out;
 }
 
-.checkbox.checked {
-}
-
 .checkmarkImage {
   width: 11px;
   height: 8px;
@@ -28,4 +25,16 @@
 .checkboxLabel {
   font-size: 16px;
   color: #333;
+}
+.checkbox.checked {
+  border-color: rgba(131, 56, 236, 1);
+}
+
+.checkmarkImage {
+  width: 11px;
+  height: 8px;
+}
+
+.checkmarkImage {
+  filter: invert(30%) sepia(50%) saturate(500%) hue-rotate(220deg); /* Modify the color of the checkmark image to match the checkbox */
 }
