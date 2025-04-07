@@ -2,7 +2,7 @@
   display: flex;
   gap: 160px;
   width: 1684;
-  height: 958;
+  min-height: 958;
   top: 206px;
   left: 118px;
   border-radius: 4px;
@@ -45,6 +45,7 @@
   margin-bottom: 167px;
 }
 .create {
+  color: white;
   align-self: flex-end;
   margin-top: 147px;
   width: 208;
@@ -62,4 +63,10 @@
   font-size: 18px;
   line-height: 100%;
   letter-spacing: 0%;
+}
+.employee {
+  z-index: 2;
+}
+.department {
+  z-index: 10;
 }

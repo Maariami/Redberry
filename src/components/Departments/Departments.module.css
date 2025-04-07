@@ -40,6 +40,8 @@
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
   background-color: white;
+  position: absolute;
+  top: 328px;
 }
 .dropdownItem {
   width: 550;
@@ -64,4 +66,7 @@
 .small .box,
 .small .newDiv {
   width: 384px;
+}
+.depo {
+  z-index: 100;
 }

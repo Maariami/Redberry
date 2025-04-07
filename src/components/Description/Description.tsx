@@ -1,31 +1,56 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
+import { useField } from "formik";
 import styles from "./Description.module.css";
 import { clsx } from "clsx";
 
 type Props = {
-  length: "short" | "long";
   text: string;
-  value: string; // Bind the value to the textarea
-  onChange: (value: string) => void; // Handle changes to the value
+  name: string;
 };
 
-const Description = ({ length, text, value, onChange }: Props) => {
+const Description = ({ text, name }: Props) => {
+  const [field, meta] = useField(name);
+  const [isFocused, setIsFocused] = useState(false);
+
+  const isValid = field.value.length >= 2 && field.value.length <= 255;
+  const isTooLong = field.value.length > 255;
+
   return (
     <>
-      <p className={styles.title}>{text}</p>
-      <div className={clsx(styles.box, styles[length])}>
+      <p className={styles.title}>*{text}</p>
+      <div className={styles.box}>
         <textarea
-          value={value} // Bind the textarea to the value prop
-          onChange={(e) => onChange(e.target.value)} // Update the parent state when the value changes
+          {...field}
+          className={styles.input}
+          onFocus={() => setIsFocused(true)}
+          onBlur={(e) => {
+            field.onBlur(e);
+            setIsFocused(false);
+          }}
         />
       </div>
       <div className={styles.validate}>
         <img src="/images/check.png" alt="" />
-        <p>მინიმუმ 2 სიმბოლო</p>
+        <p
+          className={clsx(
+            !isFocused && styles.default,
+            isValid ? styles.valid : styles.invalid
+          )}
+        >
+          მინიმუმ 2 სიმბოლო
+        </p>
       </div>
       <div className={styles.validate}>
         <img src="/images/check.png" alt="" />
-        <p>მინიმუმ 255 სიმბოლო</p>
+        <p
+          className={clsx(
+            !isFocused && styles.default,
+            isTooLong ? styles.invalid : styles.valid
+          )}
+        >
+          მაქსიმუმ 255 სიმბოლო
+        </p>
       </div>
     </>
   );
