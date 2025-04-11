@@ -14,11 +14,12 @@ export default function Home() {
     <>
       <Header />
       <div className={styles.head}>
-        <Selects setSelectedItems={setSelectedItems} />
+        <Selects
+          selectedItems={selectedItems}
+          setSelectedItems={setSelectedItems}
+        />
       </div>
-      <div className={styles.dash}>
-        <Lines></Lines>
-      </div>
+      <Lines selectedItems={selectedItems} />
     </>
   );
 }

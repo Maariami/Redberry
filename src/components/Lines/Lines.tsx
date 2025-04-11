@@ -5,12 +5,13 @@ import Line from "../Line/Line";
 
 const API_TOKEN = "9e8fae87-b024-4cd6-ad8f-dffb3840af32";
 
-const Lines = () => {
+type Props = {
+  selectedItems: { name: string; category: string }[];
+};
+
+const Lines = ({ selectedItems }: Props) => {
   const [tasks, setTasks] = useState<any[] | null>(null);
   const [loading, setLoading] = useState(true);
-  const [selectedItems, setSelectedItems] = useState<
-    { name: string; category: string }[]
-  >([]);
 
   useEffect(() => {
     const fetchTasks = async () => {

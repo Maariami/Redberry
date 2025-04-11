@@ -23,43 +23,44 @@ const Selects = ({ setSelectedItems }: SelectsProps) => {
 
   const options = ["დეპარტამენტი", "პრიორიტეტი", "თანამშრომელი"];
 
-  async function fetchData() {
-    try {
-      console.log("Fetching data...");
-      const token = "9e8fae87-b024-4cd6-ad8f-dffb3840af32";
-      const [departmentsRes, prioritiesRes, employeesRes] = await Promise.all([
-        fetch("https://momentum.redberryinternship.ge/api/departments", {
-          headers: { Authorization: `Bearer ${token}` },
-        }),
-        fetch("https://momentum.redberryinternship.ge/api/priorities", {
-          headers: { Authorization: `Bearer ${token}` },
-        }),
-        fetch("https://momentum.redberryinternship.ge/api/employees", {
-          headers: { Authorization: `Bearer ${token}` },
-        }),
-      ]);
-
-      const [departmentsData, prioritiesData, employeesData] =
-        await Promise.all([
-          departmentsRes.json(),
-          prioritiesRes.json(),
-          employeesRes.json(),
-        ]);
-
-      setDepartments(departmentsData);
-      setPriorities(prioritiesData);
-      setEmployees(employeesData);
-      setCheckedItems([
-        new Array(departmentsData.length).fill(false),
-        new Array(prioritiesData.length).fill(false),
-        new Array(employeesData.length).fill(false),
-      ]);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  }
-
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = "9e8fae87-b024-4cd6-ad8f-dffb3840af32";
+        const [departmentsRes, prioritiesRes, employeesRes] = await Promise.all(
+          [
+            fetch("https://momentum.redberryinternship.ge/api/departments", {
+              headers: { Authorization: `Bearer ${token}` },
+            }),
+            fetch("https://momentum.redberryinternship.ge/api/priorities", {
+              headers: { Authorization: `Bearer ${token}` },
+            }),
+            fetch("https://momentum.redberryinternship.ge/api/employees", {
+              headers: { Authorization: `Bearer ${token}` },
+            }),
+          ]
+        );
+
+        const [departmentsData, prioritiesData, employeesData] =
+          await Promise.all([
+            departmentsRes.json(),
+            prioritiesRes.json(),
+            employeesRes.json(),
+          ]);
+
+        setDepartments(departmentsData);
+        setPriorities(prioritiesData);
+        setEmployees(employeesData);
+        setCheckedItems([
+          new Array(departmentsData.length).fill(false),
+          new Array(prioritiesData.length).fill(false),
+          new Array(employeesData.length).fill(false),
+        ]);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
     fetchData();
   }, []);
 
@@ -74,7 +75,6 @@ const Selects = ({ setSelectedItems }: SelectsProps) => {
     const updatedCheckedItems = [...checkedItems];
     updatedCheckedItems[categoryIndex][itemIndex] =
       !updatedCheckedItems[categoryIndex][itemIndex];
-
     setCheckedItems(updatedCheckedItems);
 
     const selected = updatedCheckedItems
@@ -87,9 +87,7 @@ const Selects = ({ setSelectedItems }: SelectsProps) => {
                     ? departments[idx]?.name
                     : catIdx === 1
                     ? priorities[idx]?.name
-                    : employees[idx]
-                    ? `${employees[idx].name} ${employees[idx].surname}`
-                    : null,
+                    : `${employees[idx]?.name} ${employees[idx]?.surname}`,
                 category:
                   catIdx === 0
                     ? "department"
@@ -104,7 +102,6 @@ const Selects = ({ setSelectedItems }: SelectsProps) => {
         (item): item is { name: string; category: string } => item !== null
       );
 
-    console.log("Current selected items list:", selected);
     setLocalSelectedItems(selected);
     setSelectedItems(selected);
   };
@@ -121,29 +118,19 @@ const Selects = ({ setSelectedItems }: SelectsProps) => {
     const deptIndex = departments.findIndex(
       (dept) => dept.name === itemToRemove
     );
-    if (deptIndex !== -1) {
-      updatedCheckedItems[0][deptIndex] = false;
-    }
+    if (deptIndex !== -1) updatedCheckedItems[0][deptIndex] = false;
 
     const priorityIndex = priorities.findIndex(
       (prio) => prio.name === itemToRemove
     );
-    if (priorityIndex !== -1) {
-      updatedCheckedItems[1][priorityIndex] = false;
-    }
+    if (priorityIndex !== -1) updatedCheckedItems[1][priorityIndex] = false;
 
     const employeeIndex = employees.findIndex(
       (emp) => `${emp.name} ${emp.surname}` === itemToRemove
     );
-    if (employeeIndex !== -1) {
-      updatedCheckedItems[2][employeeIndex] = false;
-    }
+    if (employeeIndex !== -1) updatedCheckedItems[2][employeeIndex] = false;
 
     setCheckedItems(updatedCheckedItems);
-    console.log(
-      "Item removed, updated selected items list:",
-      updatedSelectedItems
-    );
   };
 
   useEffect(() => {
@@ -156,7 +143,6 @@ const Selects = ({ setSelectedItems }: SelectsProps) => {
         setSelectedIndex(null);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -165,12 +151,9 @@ const Selects = ({ setSelectedItems }: SelectsProps) => {
 
   const handleSelection = (event: React.MouseEvent) => {
     event.stopPropagation();
-    console.log("Button3 clicked, closing dropdown");
     setVisibleIndex(null);
     setSelectedIndex(null);
   };
-
-  console.log("Passing selectedItems to Filtered:", selectedItems);
 
   return (
     <div>
@@ -191,13 +174,11 @@ const Selects = ({ setSelectedItems }: SelectsProps) => {
 
         {visibleIndex !== null && (
           <div className={styles.dropdown}>
-            {(visibleIndex === 0 && departments.length > 0
+            {(visibleIndex === 0
               ? departments
-              : visibleIndex === 1 && priorities.length > 0
+              : visibleIndex === 1
               ? priorities
-              : visibleIndex === 2 && employees.length > 0
-              ? employees
-              : []
+              : employees
             ).map((item, idx) => (
               <CustomCheckbox
                 key={idx}
@@ -223,6 +204,7 @@ const Selects = ({ setSelectedItems }: SelectsProps) => {
           </div>
         )}
       </div>
+
       <Filtered
         selectedItems={selectedItems.map((item) => item.name)}
         removeItem={removeItem}

@@ -4,21 +4,16 @@ import Task from "../Task/Task";
 import TaskHeader from "../TaskHeader/TaskHeader";
 import styles from "./Line.module.css";
 
-type Color = "pink" | "red" | "blue" | "yellow";
-type Status = "დასაწყები" | "პროგრესში" | "დასრულებული" | "მზად ტესტირებისთვის";
-
 type Props = {
-  color: Color;
-  status: Status;
-  tasks: any[]; // tasks are passed from parent
+  color: string;
+  status: string;
+  tasks: any[];
   selectedItems: { name: string; category: string }[];
 };
 
 const Line = ({ color, status, tasks, selectedItems }: Props) => {
-  // Filter tasks by status
   let filteredTasks = tasks.filter((task) => task.status.name === status);
 
-  // Extract selected filters
   const selectedDepartments = selectedItems
     .filter((item) => item.category === "department")
     .map((item) => item.name);
@@ -31,7 +26,6 @@ const Line = ({ color, status, tasks, selectedItems }: Props) => {
     .filter((item) => item.category === "employee")
     .map((item) => item.name);
 
-  // Apply filters
   if (selectedItems.length > 0) {
     filteredTasks = filteredTasks.filter((task) => {
       const taskDepartment = task.department?.name;
