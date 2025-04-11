@@ -139,6 +139,8 @@ const Page = () => {
       if (contentType?.includes("application/json")) {
         const result = await response.json();
         console.log("✅ Task created successfully:", result);
+        // Refresh the page after successful task creation
+        window.location.reload();
       } else {
         const text = await response.text();
         throw new Error(`Unexpected response format: ${text}`);

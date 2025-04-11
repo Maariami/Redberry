@@ -70,3 +70,6 @@
 .department {
   z-index: 10;
 }
+.create:hover {
+  background-color: rgba(181, 136, 244, 1);
+}

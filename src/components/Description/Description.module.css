@@ -26,6 +26,7 @@
   border: none;
   outline: none;
   color: rgba(33, 37, 41, 1);
+  resize: none;
 }
 .validate {
   margin-top: 8px;
