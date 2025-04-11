@@ -3,9 +3,7 @@ import React, { useState } from "react";
 import styles from "./Coworkers.module.css";
 import AddWorker from "../AddWorker/AddWorker";
 
-type Props = {};
-
-const Coworkers = (props: Props) => {
+const Coworkers = () => {
   const [isOpen, setIsOpen] = useState(false);
   const handleClick = () => {
     setIsOpen(!isOpen);

@@ -4,9 +4,7 @@ import Button1 from "../Buttons/Button1/Button1";
 import Button2 from "../Buttons/Button2/Button2";
 import Link from "next/link";
 
-type Props = {};
-
-const Header = (props: Props) => {
+const Header = () => {
   return (
     <header className={styles.header}>
       <Link className={styles.momentum} href="/">

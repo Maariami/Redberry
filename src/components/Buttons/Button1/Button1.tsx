@@ -14,7 +14,7 @@ const Button1 = () => {
   const [selectedDepartmentId, setSelectedDepartmentId] = useState<
     string | null
   >(null);
-  const [departments, setDepartments] = useState<any[]>([]); // State for departments
+  const [departments, setDepartments] = useState<[]>([]); // State for departments
 
   // Fetch departments only once when Button1 is mounted
   useEffect(() => {
@@ -57,7 +57,7 @@ const Button1 = () => {
     console.log("Department selected (ID):", departmentId);
   };
 
-  const handleSubmit = async (values: any) => {
+  const handleSubmit = async (values) => {
     const { firstName, lastName } = values;
 
     console.log("First Name:", firstName);

@@ -14,9 +14,9 @@ const Selects = ({ setSelectedItems }: SelectsProps) => {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [visibleIndex, setVisibleIndex] = useState<number | null>(null);
   const [checkedItems, setCheckedItems] = useState<boolean[][]>([[], [], []]);
-  const [departments, setDepartments] = useState<any[]>([]);
-  const [priorities, setPriorities] = useState<any[]>([]);
-  const [employees, setEmployees] = useState<any[]>([]);
+  const [departments, setDepartments] = useState<[]>([]);
+  const [priorities, setPriorities] = useState<[]>([]);
+  const [employees, setEmployees] = useState<[]>([]);
   const [selectedItems, setLocalSelectedItems] = useState<
     { name: string; category: string }[]
   >([]);

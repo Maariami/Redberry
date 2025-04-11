@@ -10,7 +10,7 @@ type Props = {
 };
 
 const Lines = ({ selectedItems }: Props) => {
-  const [tasks, setTasks] = useState<any[] | null>(null);
+  const [tasks, setTasks] = useState<[] | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

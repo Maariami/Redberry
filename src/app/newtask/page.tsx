@@ -145,7 +145,7 @@ const Page = () => {
         const text = await response.text();
         throw new Error(`Unexpected response format: ${text}`);
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error("❌ Error creating task:", error);
     }
   };

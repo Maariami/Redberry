@@ -8,6 +8,31 @@ import { clsx } from "clsx";
 
 type Border = "pink" | "red" | "blue" | "yellow";
 type Color = "pink" | "red" | "blue" | "yellow";
+type Employee = {
+  id: number;
+  name: string;
+  surname: string;
+  avatar: string;
+  department: {
+    name: string;
+  };
+};
+
+type Priority = {
+  name: string;
+};
+type TaskType = {
+  id: number;
+  name: string;
+  description: string;
+  due_date: string;
+  priority: Priority;
+  employee: Employee;
+  total_comments: number;
+  department: {
+    name: string;
+  }; // ← Add this!
+};
 
 const Task = ({
   color,
@@ -16,7 +41,7 @@ const Task = ({
 }: {
   color: Color;
   border: Border;
-  task: any;
+  task: TaskType;
 }) => {
   const {
     id,

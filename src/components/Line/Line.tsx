@@ -4,10 +4,37 @@ import Task from "../Task/Task";
 import TaskHeader from "../TaskHeader/TaskHeader";
 import styles from "./Line.module.css";
 
+// Inline TaskType
+type TaskType = {
+  id: number;
+  name: string;
+  description: string;
+  due_date: string;
+  priority: {
+    id: number;
+    name: string;
+  };
+  employee: {
+    id: number;
+    name: string;
+    surname: string;
+    avatar: string;
+  };
+  department: {
+    id: number;
+    name: string;
+  };
+  status: {
+    id: number;
+    name: string;
+  };
+  total_comments: number;
+};
+
 type Props = {
   color: string;
   status: string;
-  tasks: any[];
+  tasks: TaskType[];
   selectedItems: { name: string; category: string }[];
 };
 
